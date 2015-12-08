@@ -1,0 +1,9 @@
+{Source Window} {source.html} {The Source Window}
+{Register Window} {register.html} {The Register Window}
+{Memory Window} {memory.html} {The Memory Window}
+{Locals Window} {locals.html} {The Locals Window}
+{Watch Window} {watch.html} {The Watch Window}
+{Breakpoint Window} {breakpoint.html} {The Breakpoint Window}
+{Console Window} {console.html} {The Console Window}
+{Stack Window} {stack.html} {The Stack Window}
+{GPL} {license.html} {The GNU Public License}

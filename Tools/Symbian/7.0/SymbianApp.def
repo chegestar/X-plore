@@ -1,0 +1,4 @@
+EXPORTS
+   SymbianMain @ 1 NONAME R3UNUSED
+   E32Dll__F10TDllReason @ 2 NONAME R3UNUSED
+

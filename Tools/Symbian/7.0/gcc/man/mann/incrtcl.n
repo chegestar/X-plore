@@ -1,0 +1,792 @@
+'\"
+'\" MAN PAGE:  [incr Tcl] - Object-oriented extensions for Tcl
+'\"   AUTHOR:  Michael J. McLennan
+'\"      RCS:  incrTcl.n,v 1.2 1994/03/25 19:00:14 mmc Exp
+'\" ========================================================================
+'\"                 Copyright (c) 1993  AT&T Bell Laboratories
+'\" ========================================================================
+'\" Permission to use, copy, modify, and distribute this software and its
+'\" documentation for any purpose and without fee is hereby granted,
+'\" provided that the above copyright notice appear in all copies and that
+'\" both that the copyright notice and warranty disclaimer appear in
+'\" supporting documentation, and that the names of AT&T Bell Laboratories
+'\" any of their entities not be used in advertising or publicity
+'\" pertaining to distribution of the software without specific, written
+'\" prior permission.
+'\"
+'\" AT&T disclaims all warranties with regard to this software, including
+'\" all implied warranties of merchantability and fitness.  In no event
+'\" shall AT&T be liable for any special, indirect or consequential
+'\" damages or any damages whatsoever resulting from loss of use, data or
+'\" profits, whether in an action of contract, negligence or other
+'\" tortuous action, arising out of or in connection with the use or
+'\" performance of this software.
+'\" ========================================================================
+'\" 
+'\" Man page formatting taken from...
+'\" Copyright 1990 Regents of the University of California
+'\" Permission to use, copy, modify, and distribute this
+'\" documentation for any purpose and without fee is hereby
+'\" granted, provided that this notice appears in all copies.
+'\" The University of California makes no representations about
+'\" the suitability of this material for any purpose.  It is
+'\" provided "as is" without express or implied warranty.
+'\"
+.\" The definitions below are for supplemental macros used in Tcl/Tk
+.\" manual entries.
+.\"
+.\" .HS name section [date [version]]
+.\"	Replacement for .TH in other man pages.  See below for valid
+.\"	section names.
+.\"
+.\" .AP type name in/out [indent]
+.\"	Start paragraph describing an argument to a library procedure.
+.\"	type is type of argument (int, etc.), in/out is either "in", "out",
+.\"	or "in/out" to describe whether procedure reads or modifies arg,
+.\"	and indent is equivalent to second arg of .IP (shouldn't ever be
+.\"	needed;  use .AS below instead)
+.\"
+.\" .AS [type [name]]
+.\"	Give maximum sizes of arguments for setting tab stops.  Type and
+.\"	name are examples of largest possible arguments that will be passed
+.\"	to .AP later.  If args are omitted, default tab stops are used.
+.\"
+.\" .BS
+.\"	Start box enclosure.  From here until next .BE, everything will be
+.\"	enclosed in one large box.
+.\"
+.\" .BE
+.\"	End of box enclosure.
+.\"
+.\" .VS
+.\"	Begin vertical sidebar, for use in marking newly-changed parts
+.\"	of man pages.
+.\"
+.\" .VE
+.\"	End of vertical sidebar.
+.\"
+.\" .DS
+.\"	Begin an indented unfilled display.
+.\"
+.\" .DE
+.\"	End of indented unfilled display.
+.\"
+'\"	# Heading for Tcl/Tk man pages
+.de HS
+.if '\\$2'cmds'       .TH \\$1 1 \\$3 \\$4
+.if '\\$2'lib'        .TH \\$1 3 \\$3 \\$4
+.if '\\$2'tcl'        .TH \\$1 3 \\$3 \\$4
+.if '\\$2'tk'         .TH \\$1 3 \\$3 \\$4
+.if t .wh -1.3i ^B
+.nr ^l \\n(.l
+.ad b
+..
+'\"	# Start an argument description
+.de AP
+.ie !"\\$4"" .TP \\$4
+.el \{\
+.   ie !"\\$2"" .TP \\n()Cu
+.   el          .TP 15
+.\}
+.ie !"\\$3"" \{\
+.ta \\n()Au \\n()Bu
+\&\\$1	\\fI\\$2\\fP	(\\$3)
+.\".b
+.\}
+.el \{\
+.br
+.ie !"\\$2"" \{\
+\&\\$1	\\fI\\$2\\fP
+.\}
+.el \{\
+\&\\fI\\$1\\fP
+.\}
+.\}
+..
+'\"	# define tabbing values for .AP
+.de AS
+.nr )A 10n
+.if !"\\$1"" .nr )A \\w'\\$1'u+3n
+.nr )B \\n()Au+15n
+.\"
+.if !"\\$2"" .nr )B \\w'\\$2'u+\\n()Au+3n
+.nr )C \\n()Bu+\\w'(in/out)'u+2n
+..
+'\"	# BS - start boxed text
+'\"	# ^y = starting y location
+'\"	# ^b = 1
+.de BS
+.br
+.mk ^y
+.nr ^b 1u
+.if n .nf
+.if n .ti 0
+.if n \l'\\n(.lu\(ul'
+.if n .fi
+..
+'\"	# BE - end boxed text (draw box now)
+.de BE
+.nf
+.ti 0
+.mk ^t
+.ie n \l'\\n(^lu\(ul'
+.el \{\
+.\"	Draw four-sided box normally, but don't draw top of
+.\"	box if the box started on an earlier page.
+.ie !\\n(^b-1 \{\
+\h'-1.5n'\L'|\\n(^yu-1v'\l'\\n(^lu+3n\(ul'\L'\\n(^tu+1v-\\n(^yu'\l'|0u-1.5n\(ul'
+.\}
+.el \}\
+\h'-1.5n'\L'|\\n(^yu-1v'\h'\\n(^lu+3n'\L'\\n(^tu+1v-\\n(^yu'\l'|0u-1.5n\(ul'
+.\}
+.\}
+.fi
+.br
+.nr ^b 0
+..
+'\"	# VS - start vertical sidebar
+'\"	# ^Y = starting y location
+'\"	# ^v = 1 (for troff;  for nroff this doesn't matter)
+.de VS
+.mk ^Y
+.ie n 'mc \s12\(br\s0
+.el .nr ^v 1u
+..
+'\"	# VE - end of vertical sidebar
+.de VE
+.ie n 'mc
+.el \{\
+.ev 2
+.nf
+.ti 0
+.mk ^t
+\h'|\\n(^lu+3n'\L'|\\n(^Yu-1v\(bv'\v'\\n(^tu+1v-\\n(^Yu'\h'-|\\n(^lu+3n'
+.sp -1
+.fi
+.ev
+.\}
+.nr ^v 0
+..
+'\"	# Special macro to handle page bottom:  finish off current
+'\"	# box/sidebar if in box/sidebar mode, then invoked standard
+'\"	# page bottom macro.
+.de ^B
+.ev 2
+'ti 0
+'nf
+.mk ^t
+.if \\n(^b \{\
+.\"	Draw three-sided box if this is the box's first page,
+.\"	draw two sides but no top otherwise.
+.ie !\\n(^b-1 \h'-1.5n'\L'|\\n(^yu-1v'\l'\\n(^lu+3n\(ul'\L'\\n(^tu+1v-\\n(^yu'\h'|0u'\c
+.el \h'-1.5n'\L'|\\n(^yu-1v'\h'\\n(^lu+3n'\L'\\n(^tu+1v-\\n(^yu'\h'|0u'\c
+.\}
+.if \\n(^v \{\
+.nr ^x \\n(^tu+1v-\\n(^Yu
+\kx\h'-\\nxu'\h'|\\n(^lu+3n'\ky\L'-\\n(^xu'\v'\\n(^xu'\h'|0u'\c
+.\}
+.bp
+'fi
+.ev
+.if \\n(^b \{\
+.mk ^y
+.nr ^b 2
+.\}
+.if \\n(^v \{\
+.mk ^Y
+.\}
+..
+'\"	# DS - begin display
+.de DS
+.RS
+.nf
+.sp
+..
+'\"	# DE - end display
+.de DE
+.fi
+.RE
+.sp .5
+..
+.pl 64
+'\"
+'\"	# CS - begin display of code example
+.de CS
+.RS
+.nf
+\f(CB
+..
+'\"	# CE - end display of code example
+.de CE
+\fP
+.fi
+.RE
+..
+.HS "[incr\ Tcl]" tcl
+.BS
+'\" Note:  do not modify the .SH NAME line immediately below!
+.SH NAME
+[incr\ Tcl] \- Object-oriented extensions to Tcl
+.SH SYNOPSIS
+\fBitcl_class \fIclassName\fR \fB{
+.ti +0.3i
+\fBinherit \fIbaseClass\fR ?\fIbaseClass\fR...?
+.sp 0.1i
+.ti +0.3i
+\fBconstructor \fIargs body\fR
+.ti +0.3i
+\fBdestructor \fIbody\fR
+.sp 0.1i
+.ti +0.3i
+\fBmethod \fIname args body\fR
+.ti +0.3i
+\fBproc \fIname args body\fR
+.sp 0.1i
+.ti +0.3i
+\fBpublic \fIvarName\fR ?\fIinit\fR? ?\fIconfig\fR?
+.ti +0.3i
+\fBprotected \fIvarName\fR ?\fIinit\fR?
+.ti +0.3i
+\fBcommon \fIvarName\fR ?\fIinit\fR?
+.br
+\fB}\fR
+.sp
+\fIclassName objName\fR ?\fIargs...\fR?
+.br
+\fIclassName\fR \fB#auto\fR ?\fIargs...\fR?
+.br
+\fIclassName\fR \fB::\fR \fIproc\fR ?\fIargs...\fR?
+.sp
+\fIobjName method\fR ?\fIargs...\fR?
+.sp
+\fBitcl_info classes ?\fIpattern\fR?
+.br
+\fBitcl_info objects ?\fIpattern\fR? ?\fB-class \fIclassName\fR? ?\fB-isa \fIclassName\fR?
+.sp
+\fICommands available within class methods/procs:\fR
+.br
+\fBglobal \fIvarName\fR ?\fIvarName...\fR?
+.br
+\fBprevious \fIcommand\fR ?\fIargs...\fR?
+.br
+\fBvirtual \fIcommand\fR ?\fIargs...\fR?
+.BE
+
+.SH DESCRIPTION
+.PP
+\fB[incr\ Tcl]\fR provides object-oriented extensions to Tcl, much as
+C++ provides object-oriented extensions to C.  The emphasis of this
+work, however, is not to create a whiz-bang object-oriented
+programming environment.  Rather, it is to support more structured
+programming practices in Tcl without changing the flavor of the language.
+More than anything else, \fB[incr\ Tcl]\fR provides a means of
+encapsulating related procedures together with their shared data
+in a local namespace that is hidden from the outside world.
+It encourages better programming by promoting the object-oriented
+"library" mindset.  It also allows for code re-use through inheritance.
+.PP
+The fundamental construct in \fB[incr\ Tcl]\fR is the class definition.
+Each class acts as a template for actual objects that can be created.
+Each object in a class contains a unique bundle of data, including
+"public" and "protected" data members.  When execution takes place within
+the scope of the class, both types of data members are accessible.
+To the programmer working outside of the class scope\-using an object
+to build his application\-only public data members are accessible.
+Public members represent attributes that can be used to configure an
+object.  For example, the "-text" attribute in the usual Tk "\fBbutton\fR"
+widget could be thought of as a public member.  Protected members,
+on the other hand, reflect the inner workings of an object and are
+kept hidden from the outside world.  This insulates the programmer
+that uses a class from the details of its implementation.
+Classes can also define "common" data members that are shared by all
+objects in a class.  Like protected members, common members are only
+accessible within the scope of the class.  The class designer will
+often provide special class-level procedures or "procs" to manipulate
+common members.  Since these "procs" can be invoked without reference
+to any specific object, they have access to common members, but not
+to public or protected members.
+.PP
+Special procedures called "methods" are used to manipulate individual
+objects.  The use of methods should be familiar to any
+Tk programmer\-the "\fBbutton\fR" widget, for example, has methods
+such as "flash" and "invoke" that are used to control its behavior.
+These methods form a contract between the class designer
+and the application developer, completely specifying the list of
+functions that can be used to interact with objects in the class.
+The implementation details within each method, however, are left
+solely to the class designer.  The public interface says \fIwhat\fR
+an object will do but not \fIhow\fR it will do it.  Insulating the
+application developer from these details leaves the class designer
+free to change them at any time, without warning, and without affecting
+programs that rely on the class.  It is precisely this encapsulation
+that makes object-oriented programs easier to understand and maintain.
+.PP
+The fact that \fB[incr\ Tcl]\fR objects look like Tk widgets is no
+accident.  \fB[incr\ Tcl]\fR was designed this way, to blend naturally
+into a Tcl/Tk application.  But \fB[incr\ Tcl]\fR extends the Tk paradigm
+from being merely object-based to being fully object-oriented.
+An object-oriented system supports inheritance, allowing classes to
+share common behaviors by inheriting them from an ancestor or
+base class.  Having a base class as a common abstraction allows
+a programmer to treat related classes in a similar manner.  For
+example, a toaster and a blender perform different (specialized)
+functions, but both share the abstraction of being appliances.
+By abstracting common behaviors into a base class, code can be
+\fIshared\fR rather than \fIcopied\fR.  The resulting application
+is easier to understand and maintain, and derived classes (e.g.,
+specialized appliances) can be added or removed more easily.
+.PP
+This description was merely a brief overview of object-oriented
+programming and \fB[incr\ Tcl]\fR.  A more tutorial introduction is
+presented in the paper included with this distribution.  Further
+details are presented in reference form below.
+
+.SH SCOPE
+.PP
+Each class maintains its own local scope, separate from the main
+interpreter.  Within the scope of a class, all members\-including
+methods and procs, as well as public, protected and common
+variables\-can be accessed transparently.  In other words,
+methods and procs can be used like ordinary commands, and variables
+can be used without declaring them with anything like the Tcl
+"\fBglobal\fR" command.
+.PP
+The scope of a class extends to all derived classes as well, so members
+can be accessed transparently throughout a derivation hierarchy.
+If the same member name appears more than once in the hierarchy,
+the class with highest priority gets transparent access to the simple
+member name, and all other members must be accessed using the explicit
+"\fIclass\fR::\fImember\fR" syntax.  Priority is determined by the
+list of classes as reported by the "\fBinfo heritage\fR" command.
+.PP
+If a command is not recognized in a particular class scope, it is
+passed up the derivation hierarchy for evaluation.  Again, base classes
+are consulted in the order reported by the "\fBinfo heritage\fR"
+command.
+If a command is not recognized by any class in the hierarchy, it is
+passed out to the global scope (main interpreter) for evaluation.
+This scheme allows Tk widget commands, for example, to be accessed
+transparently within any class, but to be executed (as they should be)
+in the global scope.  Any command can be sent explicitly to the global
+scope using the "::\fIcommand\fR" syntax.
+.PP
+It is sometimes convenient, particularly when dealing with Tk widgets,
+to have access to global variables that exist in the main interpreter.
+This is achieved using the usual Tcl "\fBglobal\fR" command
+within a class method or proc.
+
+.SH ARGUMENT LISTS
+.PP
+Class methods and procs look like ordinary Tcl procs, except that they
+also provide transparent access to class data.  The rules for handling
+formal arguments in the \fIargs\fR lists are the same as well.  Each
+element of this list can be a simple argument name, or another list
+containing the argument name and its default value.  If the last formal
+argument is named "args", it will absorb all unmatched arguments into
+a single list of values.
+.PP
+Argument lists for class methods also recognize a special argument to
+handle configuration of public variables.  If the last formal argument
+is named "config", it will absorb all unmatched arguments and parse
+them as "\-\fIvarName value\fR" assignments.  If \fIvarName\fR is
+recognized as a public variable, then this variable is modified to
+contain the given value.  If the variable was defined with special
+\fIconfig\fR code, this code is automatically executed in the scope
+of its associated class.  If this \fIconfig\fR code returns an error,
+the variable
+is automatically reset to its previous value, and the method is aborted,
+returning the configuration error.  If argument parsing is successful,
+the "config" variable is set to the list of variables that were
+configured, and the method body is executed.
+.PP
+As an example, suppose that we define a simple class with two public
+variables:
+.CS
+itcl_class Thing {
+    constructor {config} {}
+    method configure {config} {}
+
+    public foo "" { puts stdout "-- just modified foo: $foo" }
+    public bar "" { puts stdout "-- just modified bar: $bar" }
+}
+.CE
+Both the constructor and the "configure" method contain the special
+"config" formal argument.  Thus, either of these methods can be used
+to configure the public variables:
+.CS
+wish: Thing x -foo 1 -bar 2
+-- just modified foo: 1
+-- just modified bar: 2
+x
+wish: x configure -bar 3
+-- just modified bar: 3
+.CE
+Each time "foo" or "bar" is configured in this example, its special
+\fIconfig\fR code (last argument in the "public" declaration) is executed,
+printing a message to show the updated value.
+
+.SH CLASS DEFINITIONS
+.TP
+\fBitcl_class \fIclassName definition\fR
+Provides the definition for a class named \fIclassName\fR.  If
+\fIclassName\fR is already defined, then this command returns
+an error.  If the class definition is successfully parsed,
+\fIclassName\fR becomes a command in the interpreter, handling the
+creation of objects and providing access to class scope.
+The class \fIdefinition\fR
+is evaluated as a series of Tcl statements that configure the interpreter
+managing a particular class scope.  In addition to the usual
+commands, the following class definition commands are recognized:
+.RS
+.TP
+\fBinherit \fIbaseClass\fR ?\fIbaseClass\fR...?
+Declares one or more base classes, causing the current class to
+inherit their characteristics.  Classes must have been defined by
+a previous "\fBitcl_class\fR" command, or must be available to the
+auto-loading facility (see "AUTO-LOADING" below).  A single class
+definition can contain no more than one "\fBinherit\fR" command.
+.RS
+.LP
+When the same member name appears in two or more base classes,
+the base class that appears first in the "\fBinherit\fR" list takes
+precedence.  For example, if classes "Foo" and "Bar" both contain
+the member "x", then the "\fBinherit\fR" statement:
+.CS
+inherit Foo Bar
+.CE
+allows "Foo::x" to be accessed simply as "x" but forces "Bar::x" (and
+all other inherited members named "x") to be referenced with their
+explicit "\fIclass\fR::\fImember\fR" name.
+.RE
+.TP
+\fBconstructor \fIargs body\fR
+Declares the argument list and body used for the constructor, which
+is automatically invoked whenever an object is created.  If construction
+is successful, the constructor always returns the object name\-regardless
+of how the \fIbody\fR is defined\-and the object name becomes a command
+in the main interpreter.  If construction fails, an error message is
+returned.
+.RS
+.LP
+Like any other method, the constructor can be inherited
+from a base class.  Furthermore, any base class constructor that is
+not explicitly invoked within \fIbody\fR will be implicitly invoked
+by \fB[incr\ Tcl]\fR in the order that the base classes are reported
+in the "\fBinfo heritage\fR" command.  This ensures that all base classes
+are properly constructed.
+.RE
+.TP
+\fBdestructor \fIbody\fR
+Declares the body used for the destructor, which is automatically invoked
+whenever an object is deleted.  If the destructor is successful, the object
+data is destroyed and the object name is removed as a command from the
+main interpreter.  If destruction fails, an error message is returned
+and the object remains.
+.RS
+.LP
+Like any other method, the destructor can be inherited from a base class.
+Furthermore, any base class destructor that is not explicitly invoked
+within \fIbody\fR will be implicitly invoked by \fB[incr\ Tcl]\fR, in the
+\fIreverse\fR order compared to constructors.
+.RE
+.TP
+\fBmethod \fIname args body\fR
+Declares a method called \fIname\fR with an argument list \fIargs\fR
+and a \fIbody\fR of Tcl statements.  A method is just like the usual
+Tcl "proc" except that it has transparent access to public, protected
+and common variables.  Within the class scope, a method can be invoked
+like any other command\-simply by using its name.  In the
+external interpreter, the method name must be prefaced by an object
+name.  Methods in a base class that are redefined in the current class
+or hidden by another base class can be explicitly scoped using the
+"\fIclass\fR::\fImethod\fR" syntax.
+.TP
+\fBproc \fIname args body\fR
+Declares a proc called \fIname\fR with an argument list \fIargs\fR
+and a \fIbody\fR of Tcl statements.  A proc is similar to a method,
+except that it can be invoked without referring to a specific object,
+and therefore has access only to common variables\-not to public or
+protected variables.  Within the class scope, a proc can be invoked
+like any other command\-simply by using its name.  In the
+external interpreter, the proc is invoked using the \fIclassName\fR
+command "\fIclassName\fR :: \fIproc\fR" to access the class scope
+(see below).  Procs in a base class that are redefined in the current
+class or hidden by another base class can be explicitly scoped using
+the "\fIclass\fR::\fIproc\fR" syntax.
+.TP
+\fBpublic \fIvarName\fR ?\fIinit\fR? ?\fIconfig\fR?
+Declares a public variable named \fIvarName\fR.  Public variables are
+visible in methods within the scope of their class and any derived class.
+In addition, they can be modified outside of the class scope using the special
+"config" formal argument (see "ARGUMENT LISTS" above).  If the optional
+\fIinit\fR is specified, it is used as the initial value of the variable
+when a new object is created.  If the optional \fIconfig\fR command
+is specified,
+it is invoked whenever a public variable is modified via the "config"
+formal argument; if the \fIconfig\fR command returns an error, the
+public variable is reset to its value before configuration, and the
+method handling the configuration returns an error.
+.TP
+\fBprotected \fIvarName\fR ?\fIinit\fR?
+Declares a protected variable named \fIvarName\fR.  Protected variables
+are visible in methods within the scope of their class and any derived class,
+but cannot
+be modified outside of the class scope.  If the optional \fIinit\fR
+is specified, it is used as the initial value of the variable when a new
+object is created.  Initialization forces the variable to be a simple
+scalar value; uninitialized variables, on the other hand, can be used
+as arrays.  All objects have a built-in protected variable named
+"this" which is initialized to the instance name for the object.
+.TP
+\fBcommon \fIvarName\fR ?\fIinit\fR?
+Declares a common variable named \fIvarName\fR.  Common variables are
+shared among all objects in a class.  They are visible in methods and
+procs in the scope of their class and any derived class, but cannot be
+modified outside of the class scope.
+If the optional \fIinit\fR is specified, it is used as the
+initial value of the variable.  Initialization forces the variable to be
+a simple scalar value; uninitialized variables, on the other hand, can
+be used as arrays.
+.RS
+.LP
+Once a common variable has been declared, it can be configured using
+ordinary Tcl code within the class definition.  This facility is
+particularly useful when the initialization of the variable is
+non-trivial\-when the variable contains an array of values, for example:
+.CS
+itcl_class Foo {
+     .
+     .
+    common boolean
+    set boolean(true) 1
+    set boolean(false) 0
+}
+.CE
+.RE
+.RE
+
+.SH CLASS USAGE
+.PP
+When a class definition has been loaded (or made available to the
+auto-loader), it can be used as a command in the main interpreter:
+.TP
+\fIclassName objName\fR ?\fIargs...\fR?
+Creates a new object in class \fIclassName\fR with the name \fIobjName\fR.
+Remaining arguments are passed to the constructor.  If construction is
+successful, the object name is returned and this name becomes a command
+in the main interpreter.  Otherwise, an error is returned.
+.TP
+\fIclassName\fR #auto ?\fIargs...\fR?
+Creates a new object in class \fIclassName\fR with an automatically
+generated name.  Names are of the form \fIclassName<number>\fR, e.g.,
+Toaster0, Toaster1, etc.  Remaining arguments are passed to the constructor.
+If construction is successful, the object name is returned and this name
+becomes a command in the main interpreter.  Otherwise, an error is returned.
+.TP
+\fIclassName\fR  ::  \fIproc\fR ?\fIargs...\fR?
+Used at the global scope to invoke a class proc named \fIproc\fR.
+Class procs are like ordinary Tcl procs, except that they are executed
+in the scope of the class and therefore have transparent
+access to common data members.
+.RS
+.LP
+Notice that, unlike any other scope qualifier in \fB[incr\ Tcl]\fR, the "::"
+shown above is surrounded by spaces.  This is necessary to avoid
+polluting the global namespace with every possible "\fIclass\fR::\fIproc\fR"
+command.
+.VS
+In Release 1.1, a special version of the usual "unknown" proc was provided
+to recognize commands like "\fIclass\fR::\fIproc\fR" (without spaces around
+the "::" qualifier).  This facility was unpopular, and is no longer supported.
+When class procs are invoked from the main interpreter, the "::" qualifier
+must be surrounded by spaces.
+.VE
+.RE
+
+.SH OBJECT USAGE
+.TP
+\fIobjName method\fR ?\fIargs...\fR?
+Invokes a method named \fImethod\fR to operate on the specified object.
+Remaining arguments are passed to the method.  The method name can
+be "constructor", "destructor", any method name appearing in the
+class definition, or any of the following built-in methods.
+.SH BUILT-IN METHODS
+.TP
+\fIobjName\fR \fBisa \fIclassName\fR
+Returns non-zero if the given \fIclassName\fR can be found in the
+object's heritage, and zero otherwise.
+.TP
+\fIobjName\fR \fBdelete\fR
+Invokes the destructor associated with an object.
+If the destructor is successful, data associated with the object is
+deleted and \fIobjName\fR is removed from the commands in the main
+interpreter.  Returns the empty string, regardless of the destructor
+body.
+.TP
+\fIobjName\fR \fBinfo \fIoption\fR ?\fIargs...\fR?
+.TP
+\fIclassName\fR :: \fBinfo \fIoption\fR ?\fIargs...\fR?
+Returns information related to the class definition, or information
+concerning the interpreter that implements the class scope.  The
+\fIoption\fR parameter includes the following things, as well as
+the options recognized by the usual Tcl "info" command:
+.RS
+.TP
+\fIobjName\fR \fBinfo class\fR
+Returns the class name at the current class scope.  When prefaced
+by the object name, this command executes in the most-specific
+class scope, and therefore returns the most-specific class name.
+.TP
+\fIobjName\fR \fBinfo inherit\fR
+Returns the list of base classes as they were defined in the
+"\fBinherit\fR" command, or an empty string if this is a top-level class.
+.TP
+\fIobjName\fR \fBinfo heritage\fR
+Returns the current class name and the entire list of base classes in
+the order that they are traversed for object construction or member
+lookup.
+.TP
+\fIobjName\fR \fBinfo method\fR
+.TP
+\fIobjName\fR \fBinfo method\fR \fImethodName\fR ?\fB-args\fR? ?\fB-body\fR?
+In the first form, this command returns a list of all class methods.
+In the second form, it returns information for a specific method.
+If neither of the optional \fB-args\fR or \fB-body\fR flags is specified,
+a complete method definition is returned as a list of three elements
+including the method name, argument list and body.  Otherwise, the
+requested information is returned without the method name.
+If the \fImethodName\fR is not recognized, an empty string is returned.
+.TP
+\fIobjName\fR \fBinfo proc\fR
+.TP
+\fIobjName\fR \fBinfo proc\fR \fIprocName\fR ?\fB-args\fR? ?\fB-body\fR?
+In the first form, this command returns a list of all class procs.
+In the second form, it returns information for a specific proc.
+If neither of the optional \fB-args\fR or \fB-body\fR flags is specified,
+a complete proc definition is returned as a list of three elements
+including the proc name, argument list and body.  Otherwise, the
+requested information is returned without the proc name.
+If the \fIprocName\fR is not recognized, an empty string is returned.
+.TP
+\fIobjName\fR \fBinfo public\fR
+.TP
+\fIobjName\fR \fBinfo public\fR \fIvarName\fR ?\fB-init\fR? ?\fB-value\fR? ?\fB-config\fR?
+In the first form, this command returns a list of all public variables.
+In the second form, it returns information for a specific public variable.
+If none of the optional \fB-init\fR, \fB-value\fR or \fB-config\fR flags
+are specified, all available information is returned as a list of four
+elements including the variable name, initial value, current value,
+and configuration commands.  Otherwise, the requested information is
+returned without the variable name.
+If the \fIvarName\fR is not recognized, an empty string is returned.
+.TP
+\fIobjName\fR \fBinfo protected\fR
+.TP
+\fIobjName\fR \fBinfo protected\fR \fIvarName\fR ?\fB-init\fR? ?\fB-value\fR?
+In the first form, this command returns a list of all protected variables.
+In the second form, it returns information for a specific protected variable.
+If neither of the optional \fB-init\fR or \fB-value\fR flags is specified,
+all available information is returned as a list of three elements
+including the variable name, initial value and current value.
+Otherwise, the requested information is returned without the variable name.
+If the \fIvarName\fR is not recognized, an empty string is returned.
+.TP
+\fIobjName\fR \fBinfo common\fR
+.TP
+\fIobjName\fR \fBinfo common\fR \fIvarName\fR ?\fB-init\fR? ?\fB-value\fR?
+In the first form, this command returns a list of all common variables.
+In the second form, it returns information for a specific common variable.
+If neither of the optional \fB-init\fR or \fB-value\fR flags is specified,
+all available information is returned as a list of three elements
+including the variable name, initial value and current value.
+Otherwise, the requested information is returned without the variable name.
+If the \fIvarName\fR is not recognized, an empty string is returned.
+.RE
+.SH CLASS/OBJECT INFORMATION
+.PP
+The following commands are available at the global scope to query
+information about classes and objects that have been created.
+.TP
+\fBitcl_info classes ?\fIpattern\fR?
+Returns a list of classes with names matching the string \fIpattern\fR
+according to the rules of the "\fBstring match\fR" command.  If the
+optional \fIpattern\fR is not specified, a list of all known classes
+is returned.
+.TP
+\fBitcl_info objects ?\fIpattern\fR? ?\fB-class \fIclassName\fR? ?\fB-isa \fIclassName\fR?
+Returns a list of objects with names matching the string \fIpattern\fR
+according to the rules of the "\fBstring match\fR" command.  If the
+optional \fIpattern\fR is not specified, a list of all known objects
+is returned.  If the optional "\fB-class\fR" parameter is specified,
+this list is restricted to objects whose most-specific class is
+\fIclassName\fR.  If the optional "\fB-isa\fR" parameter is specified,
+this list is further restricted to objects having the given \fIclassName\fR
+anywhere in their heritage.
+.SH OTHER BUILT-IN COMMANDS
+The following commands are also available within the scope of each class.
+They cannot be accessed from outside of the class as proper methods or
+procs; rather, they are useful inside the class when implementing its
+functionality.
+.TP
+\fBglobal \fIvarName\fR ?\fIvarName...\fR?
+Creates a link to one or more global variables in the main interpreter.
+This is useful when communicating with Tk widgets that rely on global
+variables.
+.TP
+\fBprevious \fIcommand\fR ?\fIargs...\fR?
+Invokes \fIcommand\fR in the scope of the most immediate base class
+.VS
+(i.e., the "previous" class) for the object.  For classes using single
+.VE
+inheritance, this facility can be used to avoid hard-wired base class
+references of the form "\fIclass\fR::\fIcommand\fR", making code easier
+to maintain.  For classes using multiple inheritance, the utility of
+this function is dubious.
+If the class at the relevant scope has no base class, an error is returned.
+.VS
+.TP
+\fBvirtual \fIcommand\fR ?\fIargs...\fR?
+Invokes \fIcommand\fR in the scope of the most-specific class for the
+object.  This provides a way of accessing "virtual" functions from
+within class methods.  Normally, the commands at a certain class scope
+refer to methods/procs in that class or in less-specific base classes
+upward in the hierarchy.  The \fBvirtual\fR command moves the scope
+\fIdownward\fR to the most-specific class in the hierarchy, and then
+invokes the method.  If a class has methods that are redefined in
+derived classes, this causes the most-specific method to be invoked.
+Note that this is only needed when commands are invoked from within a
+class; when commands are invoked at the global scope, they are
+automatically executed in the scope of the most-specific class.
+.VE
+
+.SH AUTO-LOADING
+.PP
+Class definitions need not be loaded explicitly; they can be loaded as
+needed by the usual Tcl auto-loading facility.  Each directory containing
+class definition files should have an accompanying "tclIndex" file.
+Each line in this file identifies a Tcl procedure \fIor [incr\ Tcl]
+class definition\fR and the file where the definition can be found.
+.PP
+For example, suppose a directory contains the definitions for classes
+"Toaster" and "SmartToaster".  Then the "tclIndex" file for this
+directory would look like:
+.CS
+# Tcl autoload index file: each line identifies a Tcl
+# procedure or [incr Tcl] class and the file where that
+# entity is defined.
+Toaster Toaster.tcl
+SmartToaster SmartToaster.tcl
+.CE
+The auto-loader must be made aware of this directory by appending
+the directory name to the "auto_path" variable.  When this is in
+place, classes will be auto-loaded as needed when used in an
+application.
+.PP
+Note that the usual "auto_mkindex" procedure used to generate the
+"tclIndex" file does not, by default, recognize \fB[incr\ Tcl]\fR
+class definitions; however, it can be modified to do so.  Such a
+modification is included in the "library" directory in the usual
+distribution for \fB[incr\ Tcl]\fR.
+
+.SH KEYWORDS
+object-oriented, class

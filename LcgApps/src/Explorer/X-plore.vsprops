@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="X-plore"
+	>
+	<UserMacro
+		Name="OBJS"
+		Value="$(IntDir)\AudioPreview.o $(IntDir)\BtSend.o $(IntDir)\Explorer.o $(IntDir)\FileBrowser.o $(IntDir)\Graphics.o $(IntDir)\ImageViewer.o $(IntDir)\Main.o $(IntDir)\Parser.o $(IntDir)\Rar.o $(IntDir)\ScanDirs.o $(IntDir)\SimpleSoundPlayer.o $(IntDir)\VideoPreview.o $(IntDir)\Viewer.o "
+		PerformEnvironmentSet="true"
+	/>
+	<UserMacro
+		Name="DEPS"
+		Value="$(IntDir)\AudioPreview.o;$(IntDir)\BtSend.o;$(IntDir)\Explorer.o;$(IntDir)\FileBrowser.o;$(IntDir)\Graphics.o;$(IntDir)\ImageViewer.o;$(IntDir)\Main.o;$(IntDir)\Parser.o;$(IntDir)\Rar.o;$(IntDir)\ScanDirs.o;$(IntDir)\SimpleSoundPlayer.o;$(IntDir)\VideoPreview.o;$(IntDir)\Viewer.o;..\Explorer\Data.dta"
+	/>
+	<UserMacro
+		Name="BUILD_DIR"
+		Value="_build\Explorer"
+		PerformEnvironmentSet="true"
+	/>
+	<UserMacro
+		Name="RES_DIR"
+		Value="Android\Xplore\res"
+	/>
+	<UserMacro
+		Name="LANG_DIR"
+		Value="..\Lang\Explorer"
+		PerformEnvironmentSet="true"
+	/>
+</VisualStudioPropertySheet>

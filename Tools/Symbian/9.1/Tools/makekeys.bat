@@ -1,0 +1,1 @@
+makekeys -cert -len 512 -expdays 3650 -dname "CN=LCG OU=Development OR=LCG CO=SK EM=info@example.com" ..\lcg.key lcg.cer

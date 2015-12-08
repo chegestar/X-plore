@@ -1,0 +1,629 @@
+'\"
+'\" Copyright (c) 1996, Expert Interface Technologies
+'\"
+'\" See the file "license.terms" for information on usage and redistribution
+'\" of this file, and for a DISCLAIMER OF ALL WARRANTIES.
+'\" 
+'\" The definitions below are for supplemental macros used in Tix
+'\" manual entries.
+'\"
+'\" .HS name section [date [version]]
+'\"	Replacement for .TH in other man pages.  See below for valid
+'\"	section names.
+'\"
+'\" .AP type name in/out [indent]
+'\"	Start paragraph describing an argument to a library procedure.
+'\"	type is type of argument (int, etc.), in/out is either "in", "out",
+'\"	or "in/out" to describe whether procedure reads or modifies arg,
+'\"	and indent is equivalent to second arg of .IP (shouldn't ever be
+'\"	needed;  use .AS below instead)
+'\"
+'\" .AS [type [name]]
+'\"	Give maximum sizes of arguments for setting tab stops.  Type and
+'\"	name are examples of largest possible arguments that will be passed
+'\"	to .AP later.  If args are omitted, default tab stops are used.
+'\"
+'\" .BS
+'\"	Start box enclosure.  From here until next .BE, everything will be
+'\"	enclosed in one large box.
+'\"
+'\" .BE
+'\"	End of box enclosure.
+'\"
+'\" .VS
+'\"	Begin vertical sidebar, for use in marking newly-changed parts
+'\"	of man pages.
+'\"
+'\" .VE
+'\"	End of vertical sidebar.
+'\"
+'\" .DS
+'\"	Begin an indented unfilled display.
+'\"
+'\" .DE
+'\"	End of indented unfilled display.
+'\"
+.\"
+'\"	# Heading for Tix man pages
+.de HS
+.ds ^3 \\0
+.if !"\\$3"" .ds ^3 \\$3
+.if '\\$2'cmds'      .TH "\\$1" 1 "\\*(^3" "\\$4" "\\$5"
+.if '\\$2'lib'       .TH "\\$1" 3 "\\*(^3" "\\$4" "\\$5"
+.if '\\$2'ncmds'     .TH "\\$1" n "\\*(^3" "\\$4" "\\$5"
+.if '\\$2'tcl'       .TH "\\$1" n "\\*(^3"  Tcl   "Tcl Built-In Commands"
+.if '\\$2'tk'        .TH "\\$1" n "\\*(^3"  Tk    "Tk Commands"
+.if '\\$2'tclc'      .TH "\\$1" 3 "\\*(^3"  Tcl   "Tcl Library Procedures"
+.if '\\$2'tkc'       .TH "\\$1" 3 "\\*(^3"  Tk    "Tk Library Procedures"
+.if '\\$2'tclcmds'   .TH "\\$1" 1 "\\*(^3"  Tcl    "Tcl Applications"
+.if '\\$2'tkcmds'    .TH "\\$1" 1 "\\*(^3"  Tk    "Tk Applications"
+.if '\\$2'tix'        .TH "\\$1" n "\\*(^3"  Tix    "Tix Commands"
+.if '\\$2'tixcmds'    .TH "\\$1" 1 "\\*(^3"  Tix    "Tix Applications"
+.if t .wh -1.3i ^B
+.nr ^l \\n(.l
+.ad b
+..
+'\"	# Start an argument description
+.de AP
+.ie !"\\$4"" .TP \\$4
+.el \{\
+.   ie !"\\$2"" .TP \\n()Cu
+.   el          .TP 15
+.\}
+.ie !"\\$3"" \{\
+.ta \\n()Au \\n()Bu
+\&\\$1	\\fI\\$2\\fP	(\\$3)
+.\".b
+.\}
+.el \{\
+.br
+.ie !"\\$2"" \{\
+\&\\$1	\\fI\\$2\\fP
+.\}
+.el \{\
+\&\\fI\\$1\\fP
+.\}
+.\}
+..
+'\"	# define tabbing values for .AP
+.de AS
+.nr )A 10n
+.if !"\\$1"" .nr )A \\w'\\$1'u+3n
+.nr )B \\n()Au+15n
+.\"
+.if !"\\$2"" .nr )B \\w'\\$2'u+\\n()Au+3n
+.nr )C \\n()Bu+\\w'(in/out)'u+2n
+..
+'\"	# BS - start boxed text
+'\"	# ^y = starting y location
+'\"	# ^b = 1
+.de BS
+.br
+.mk ^y
+.nr ^b 1u
+.if n .nf
+.if n .ti 0
+.if n \l'\\n(.lu\(ul'
+.if n .fi
+..
+'\"	# BE - end boxed text (draw box now)
+.de BE
+.nf
+.ti 0
+.mk ^t
+.ie n \l'\\n(^lu\(ul'
+.el \{\
+.\"	Draw four-sided box normally, but don't draw top of
+.\"	box if the box started on an earlier page.
+.ie !\\n(^b-1 \{\
+\h'-1.5n'\L'|\\n(^yu-1v'\l'\\n(^lu+3n\(ul'\L'\\n(^tu+1v-\\n(^yu'\l'|0u-1.5n\(ul'
+.\}
+.el \}\
+\h'-1.5n'\L'|\\n(^yu-1v'\h'\\n(^lu+3n'\L'\\n(^tu+1v-\\n(^yu'\l'|0u-1.5n\(ul'
+.\}
+.\}
+.fi
+.br
+.nr ^b 0
+..
+'\"	# VS - start vertical sidebar
+'\"	# ^Y = starting y location
+'\"	# ^v = 1 (for troff;  for nroff this doesn't matter)
+.de VS
+.mk ^Y
+.ie n 'mc \s12\(br\s0
+.el .nr ^v 1u
+..
+'\"	# VE - end of vertical sidebar
+.de VE
+.ie n 'mc
+.el \{\
+.ev 2
+.nf
+.ti 0
+.mk ^t
+\h'|\\n(^lu+3n'\L'|\\n(^Yu-1v\(bv'\v'\\n(^tu+1v-\\n(^Yu'\h'-|\\n(^lu+3n'
+.sp -1
+.fi
+.ev
+.\}
+.nr ^v 0
+..
+'\"	# Special macro to handle page bottom:  finish off current
+'\"	# box/sidebar if in box/sidebar mode, then invoked standard
+'\"	# page bottom macro.
+.de ^B
+.ev 2
+'ti 0
+'nf
+.mk ^t
+.if \\n(^b \{\
+.\"	Draw three-sided box if this is the box's first page,
+.\"	draw two sides but no top otherwise.
+.ie !\\n(^b-1 \h'-1.5n'\L'|\\n(^yu-1v'\l'\\n(^lu+3n\(ul'\L'\\n(^tu+1v-\\n(^yu'\h'|0u'\c
+.el \h'-1.5n'\L'|\\n(^yu-1v'\h'\\n(^lu+3n'\L'\\n(^tu+1v-\\n(^yu'\h'|0u'\c
+.\}
+.if \\n(^v \{\
+.nr ^x \\n(^tu+1v-\\n(^Yu
+\kx\h'-\\nxu'\h'|\\n(^lu+3n'\ky\L'-\\n(^xu'\v'\\n(^xu'\h'|0u'\c
+.\}
+.bp
+'fi
+.ev
+.if \\n(^b \{\
+.mk ^y
+.nr ^b 2
+.\}
+.if \\n(^v \{\
+.mk ^Y
+.\}
+..
+'\"	# DS - begin display
+.de DS
+.RS
+.nf
+.sp
+..
+'\"	# DE - end display
+.de DE
+.fi
+.RE
+.sp
+..
+'\" copyrighted: (c) 1990 The Regents of the University of California.
+'\"              (c) 1994-1995 Sun Microsystems, Inc.
+'\" The license terms of the Tcl/Tk distrobution are in the file
+'\" license.tcl.
+'\" The definitions below are for supplemental macros used in Tix
+'\" manual entries.
+'\"
+'\" .HS name section [date [version]]
+'\"	Replacement for .TH in other man pages.  See below for valid
+'\"	section names.
+'\"
+'\" .AP type name in/out [indent]
+'\"	Start paragraph describing an argument to a library procedure.
+'\"	type is type of argument (int, etc.), in/out is either "in", "out",
+'\"	or "in/out" to describe whether procedure reads or modifies arg,
+'\"	and indent is equivalent to second arg of .IP (shouldn't ever be
+'\"	needed;  use .AS below instead)
+'\"
+'\" .AS [type [name]]
+'\"	Give maximum sizes of arguments for setting tab stops.  Type and
+'\"	name are examples of largest possible arguments that will be passed
+'\"	to .AP later.  If args are omitted, default tab stops are used.
+'\"
+'\" .BS
+'\"	Start box enclosure.  From here until next .BE, everything will be
+'\"	enclosed in one large box.
+'\"
+'\" .BE
+'\"	End of box enclosure.
+'\"
+'\" .VS
+'\"	Begin vertical sidebar, for use in marking newly-changed parts
+'\"	of man pages.
+'\"
+'\" .VE
+'\"	End of vertical sidebar.
+'\"
+'\" .DS
+'\"	Begin an indented unfilled display.
+'\"
+'\" .DE
+'\"	End of indented unfilled display.
+'\"
+.\"
+'\"	# Heading for Tix man pages
+.de HS
+.ds ^3 \\0
+.if !"\\$3"" .ds ^3 \\$3
+.if '\\$2'cmds'      .TH "\\$1" 1 "\\*(^3" "\\$4" "\\$5"
+.if '\\$2'lib'       .TH "\\$1" 3 "\\*(^3" "\\$4" "\\$5"
+.if '\\$2'ncmds'     .TH "\\$1" n "\\*(^3" "\\$4" "\\$5"
+.if '\\$2'tcl'       .TH "\\$1" n "\\*(^3"  Tcl   "Tcl Built-In Commands"
+.if '\\$2'tk'        .TH "\\$1" n "\\*(^3"  Tk    "Tk Commands"
+.if '\\$2'tclc'      .TH "\\$1" 3 "\\*(^3"  Tcl   "Tcl Library Procedures"
+.if '\\$2'tkc'       .TH "\\$1" 3 "\\*(^3"  Tk    "Tk Library Procedures"
+.if '\\$2'tclcmds'   .TH "\\$1" 1 "\\*(^3"  Tcl    "Tcl Applications"
+.if '\\$2'tkcmds'    .TH "\\$1" 1 "\\*(^3"  Tk    "Tk Applications"
+.if '\\$2'tix'        .TH "\\$1" n "\\*(^3"  Tix    "Tix Commands"
+.if '\\$2'tixcmds'    .TH "\\$1" 1 "\\*(^3"  Tix    "Tix Applications"
+.if t .wh -1.3i ^B
+.nr ^l \\n(.l
+.ad b
+..
+'\"	# Start an argument description
+.de AP
+.ie !"\\$4"" .TP \\$4
+.el \{\
+.   ie !"\\$2"" .TP \\n()Cu
+.   el          .TP 15
+.\}
+.ie !"\\$3"" \{\
+.ta \\n()Au \\n()Bu
+\&\\$1	\\fI\\$2\\fP	(\\$3)
+.\".b
+.\}
+.el \{\
+.br
+.ie !"\\$2"" \{\
+\&\\$1	\\fI\\$2\\fP
+.\}
+.el \{\
+\&\\fI\\$1\\fP
+.\}
+.\}
+..
+'\"	# define tabbing values for .AP
+.de AS
+.nr )A 10n
+.if !"\\$1"" .nr )A \\w'\\$1'u+3n
+.nr )B \\n()Au+15n
+.\"
+.if !"\\$2"" .nr )B \\w'\\$2'u+\\n()Au+3n
+.nr )C \\n()Bu+\\w'(in/out)'u+2n
+..
+'\"	# BS - start boxed text
+'\"	# ^y = starting y location
+'\"	# ^b = 1
+.de BS
+.br
+.mk ^y
+.nr ^b 1u
+.if n .nf
+.if n .ti 0
+.if n \l'\\n(.lu\(ul'
+.if n .fi
+..
+'\"	# BE - end boxed text (draw box now)
+.de BE
+.nf
+.ti 0
+.mk ^t
+.ie n \l'\\n(^lu\(ul'
+.el \{\
+.\"	Draw four-sided box normally, but don't draw top of
+.\"	box if the box started on an earlier page.
+.ie !\\n(^b-1 \{\
+\h'-1.5n'\L'|\\n(^yu-1v'\l'\\n(^lu+3n\(ul'\L'\\n(^tu+1v-\\n(^yu'\l'|0u-1.5n\(ul'
+.\}
+.el \}\
+\h'-1.5n'\L'|\\n(^yu-1v'\h'\\n(^lu+3n'\L'\\n(^tu+1v-\\n(^yu'\l'|0u-1.5n\(ul'
+.\}
+.\}
+.fi
+.br
+.nr ^b 0
+..
+'\"	# VS - start vertical sidebar
+'\"	# ^Y = starting y location
+'\"	# ^v = 1 (for troff;  for nroff this doesn't matter)
+.de VS
+.mk ^Y
+.ie n 'mc \s12\(br\s0
+.el .nr ^v 1u
+..
+'\"	# VE - end of vertical sidebar
+.de VE
+.ie n 'mc
+.el \{\
+.ev 2
+.nf
+.ti 0
+.mk ^t
+\h'|\\n(^lu+3n'\L'|\\n(^Yu-1v\(bv'\v'\\n(^tu+1v-\\n(^Yu'\h'-|\\n(^lu+3n'
+.sp -1
+.fi
+.ev
+.\}
+.nr ^v 0
+..
+'\"	# Special macro to handle page bottom:  finish off current
+'\"	# box/sidebar if in box/sidebar mode, then invoked standard
+'\"	# page bottom macro.
+.de ^B
+.ev 2
+'ti 0
+'nf
+.mk ^t
+.if \\n(^b \{\
+.\"	Draw three-sided box if this is the box's first page,
+.\"	draw two sides but no top otherwise.
+.ie !\\n(^b-1 \h'-1.5n'\L'|\\n(^yu-1v'\l'\\n(^lu+3n\(ul'\L'\\n(^tu+1v-\\n(^yu'\h'|0u'\c
+.el \h'-1.5n'\L'|\\n(^yu-1v'\h'\\n(^lu+3n'\L'\\n(^tu+1v-\\n(^yu'\h'|0u'\c
+.\}
+.if \\n(^v \{\
+.nr ^x \\n(^tu+1v-\\n(^Yu
+\kx\h'-\\nxu'\h'|\\n(^lu+3n'\ky\L'-\\n(^xu'\v'\\n(^xu'\h'|0u'\c
+.\}
+.bp
+'fi
+.ev
+.if \\n(^b \{\
+.mk ^y
+.nr ^b 2
+.\}
+.if \\n(^v \{\
+.mk ^Y
+.\}
+..
+'\"	# DS - begin display
+.de DS
+.RS
+.nf
+.sp
+..
+'\"	# DE - end display
+.de DE
+.fi
+.RE
+.sp
+..
+'----------------------------------------------------------------------
+.HS tixFileSelectBox tix 4.0
+.BS
+'
+'
+.SH NAME
+tixFileSelectBox \- Create and manipulate Tix FileSelectBox widgets
+'
+'
+'
+.SH SYNOPSIS
+\fBtixFileSelectBox\fI \fIpathName ?\fIoptions\fR?
+'
+'
+'----------------------------------------------------------------------
+.SH "STANDARD OPTIONS"
+'
+The FileSelectBox widget supports all the standard options of a frame
+widget.  See the \fBoptions(n)\fR manual entry for details on the standard
+options.
+'
+'
+'
+.SH "WIDGET-SPECIFIC OPTIONS"
+'----------
+.LP
+.nf
+Name:		\fBbrowsecmd\fR
+Class:		\fBbrowseCmd\fR
+Switch:		\fB\-browsecmd\fR
+.fi
+.IP
+Specifies the command to execute when the user browses through the
+files. By default, if the \fB\-browsecmd\fR is specified, the browse
+command will be executed when the user clicks on a filename in the
+\fIFiles\fR listbox.
+'----------
+.LP
+.nf
+Name:		\fBcommand\fR
+Class:		\fBCommand\fR
+Switch:		\fB\-command\fR
+.fi
+.IP
+Specifies the command to execute when the FileSelectBox is
+invoked. This command is executed with one parameter : the filename
+selected by the user.
+'----------
+.LP
+.nf
+Name:		\fBdirectory\fR
+Class:		\fBDirectory\fR
+Switch:		\fB\-directory\fR
+Alias:		\fB\-dir\fR
+.fi
+.IP
+Specifies the directory to look for files. By default this will be the
+current working directory of the program and will be changed as the
+user browses through the directories.
+'
+'----------BEGIN
+.LP
+.nf
+Name:		\fBdisableCallback\fR
+Class:		\fBDisableCallback\fR
+Switch:		\fB\-disablecallback\fR
+.fi
+.IP
+A boolean value indicating whether callbacks should be disabled. When
+set to true, the TCL command specified by the \fB\-command\fR option
+is not executed when the \fB\-value\fR of the ExFileSelectBox
+widget changes.
+'----------END
+'----------
+.LP
+.nf
+Name:		\fBpattern\fR
+Class:		\fBPattern\fR
+Switch:		\fB\-pattern\fR
+.fi
+.IP
+Specifies the matching pattern of the file names that should be listed in
+the \fIFiles\fR listbox. For example "*.c" matches all the filenames that
+end with ".c". If this option is set to the empty string, the default
+pattern "*" will be used.
+'----------
+.LP
+.nf
+Name:		\fBvalue\fR
+Class:		\fBValue\fR
+Switch:		\fB\-value\fR
+Alias:		\fB\-selection\fR
+.fi
+.IP
+Specifies the name of the filename currently selected by the user.
+'
+'----------------------------------------------------------------------
+.SH SUBWIDGETS
+'
+'----------BEGIN
+.LP
+.nf
+Name:		\fBdirlist\fR
+Class:		\fBTixScrolledListBox\fR
+.fi
+.IP
+The scrolled listbox that shows the directories.
+'----------END
+'----------BEGIN
+.LP
+.nf
+Name:		\fBfilelist\fR
+Class:		\fBTixScrolledListBox\fR
+.fi
+.IP
+The scrolled listbox that shows the files.
+'----------END
+'
+'----------BEGIN
+.LP
+.nf
+Name:		\fBfilter\fR
+Class:		\fBTixComboBox\fR
+.fi
+.IP
+The ComboBox listbox that shows the filter string.
+'----------END
+'
+'----------BEGIN
+.LP
+.nf
+Name:		\fBselection\fR
+Class:		\fBTixComboBox\fR
+.fi
+.IP
+The ComboBox listbox that shows the file selection.
+'----------END
+'
+.BE
+'======================
+'
+'
+'
+.SH DESCRIPTION
+'
+.PP
+'
+The \fBtixFileSelectBox\fR command creates a new window (given by the
+\fIpathName\fR argument) and makes it into a FileSelectBox widget.
+Additional options, described above, may be specified on the command
+line or in the option database to configure aspects of the
+FileSelectBox such as its cursor and relief.
+.PP
+The FileSelectBox is similar to the standard Motif(TM) file-selection
+box. It is generally used for the user to choose a file. FileSelectBox
+stores the files mostly recently selected into a ComboBox widget so
+that they can be quickly selected again. The \fBtixFileSelectDialog\fR
+widget is a combination of the FileSelectBox widget and a dialog
+widget.
+'
+.SH "WIDGET COMMAND"
+.PP
+'
+The \fBtixFileSelectBox\fR command creates a new Tcl command whose
+name is the same as the path name of the FileSelectBox's window.
+This command may be used to invoke various operations on the widget.
+It has the following general form:
+'
+.DS C
+'
+\fIpathName option \fR?\fIarg arg ...\fR?
+.PP
+.DE
+'
+\fIPathName\fR is the name of the command, which is the same as the
+FileSelectBox widget's path name. \fIOption\fR and the
+\fIarg\fRs determine the exact behavior of the command.  The following
+commands are possible for FileSelectBox widgets:
+'
+.TP
+\fIpathName \fBcget\fR \fIoption\fR
+'
+Returns the current value of the configuration option given by
+\fIoption\fR. \fIOption\fR may have any of the values accepted by the
+\fBtixFileSelectBox\fR command.
+'
+.TP
+'
+\fIpathName \fBconfigure\fR ?\fIoption\fR? \fI?value option value ...\fR?
+'
+Query or modify the configuration options of the widget.  If no
+\fIoption\fR is specified, returns a list describing all of the
+available options for \fIpathName\fR (see \fBTk_ConfigureInfo\fR for
+information on the format of this list).  If \fIoption\fR is specified
+with no \fIvalue\fR, then the command returns a list describing the
+one named option (this list will be identical to the corresponding
+sublist of the value returned if no \fIoption\fR is specified).  If
+one or more \fIoption\-value\fR pairs are specified, then the command
+modifies the given widget option(s) to have the given value(s); in
+this case the command returns an empty string.  \fIOption\fR may have
+any of the values accepted by the \fBtixFileSelectBox\fR command.
+'
+.TP
+'
+\fIpathName \fBfilter\fR
+'
+Updates the files listed in the FileSelectBox according to the
+filtering pattern sepcified in the \fBfilter\fR subwidget.
+.TP
+'
+\fIpathName \fBinvoke\fR
+Execute the command specified by the \fB\-command\fR option with the
+filename stored in the \fBselection\fR subwidget.
+'
+.TP
+\fIpathName \fBsubwidget \fI name ?args?\fR 
+'
+When no options are given, this command returns the pathname of the
+subwidget of the specified name.
+
+When options are given, the widget command of the specified subwidget
+will be called with these options.
+'
+'
+.SH "DEFAULT BINDINGS"
+TIX automatically creates class bindings for FileSelectBoxes that give them
+the following default behavior:
+.IP [1]
+Mouse button 1 in the \fIDirectory\fR listbox will change the filter
+string to the selected directory.
+.IP [2]
+Mouse button 1 in the \fIFiles\fR listbox will change the filename
+that appears in the \fISelection\fR entry. It will also trigger the
+\fB\-browsecmd\fR if the option has been specified.
+.IP [3]
+The current directory will be changed by (1) double clicking the
+\fIDirectory\fR listbox or (2) invoking the \fIFilter\fR ComboBox.
+Please refer to the man page of \fBtixComboBox\fR for the default
+bindings of the ComboBoxes and how they can be invoked.
+.IP [4]
+The command specified by the option -command will be invoked by (1)
+double clicking the \fIFiles\fR listbox or (2) invoking
+\fISelection\fR ComboBox.
+'
+'
+.SH KEYWORDS
+tixFileSelectBox, tixComboBox, tixFileSelectDialog, Tix(n), 

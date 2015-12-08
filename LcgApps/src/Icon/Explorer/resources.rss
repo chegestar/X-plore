@@ -1,0 +1,50 @@
+NAME LCG
+
+#include <eikon.rh>
+
+RESOURCE RSS_SIGNATURE { }
+RESOURCE TBUF { buf = ""; }
+
+#if !defined _3RD
+
+RESOURCE EIK_APP_INFO { menubar = r_menubar;
+#ifdef S60
+   cba = r_cba; 
+#endif //S60
+}
+RESOURCE MENU_BAR r_menubar { }
+
+#else
+
+#include <avkon.rh>
+RESOURCE EIK_APP_INFO { menubar = r_menubar; cba = r_cba; }
+RESOURCE AVKON_VIEW r_avkon_view{ }
+RESOURCE MENU_BAR r_menubar { }
+
+#endif
+
+//----------------------------
+
+#ifdef _3RD
+
+#include <appinfo.rh>
+
+RESOURCE LOCALISABLE_APP_INFO {
+   short_caption = "X-plore";
+   caption_and_icon = CAPTION_AND_ICON_INFO {
+      caption = "X-plore";
+      number_of_icons = 1;
+	   icon_file = "\\resource\\apps\\Xplore.mif";
+	};
+}
+
+#endif //_3RD
+
+//----------------------------
+
+#ifdef S60
+                              //cba buttons for correct behavior of text editors
+RESOURCE CBA r_cba{ buttons = { CBA_BUTTON { id = 3000; }, CBA_BUTTON { id = 3001; } }; }
+#endif
+
+//----------------------------

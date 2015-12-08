@@ -1,0 +1,62 @@
+Usage: cpp.exe [switches] input output
+Switches:
+  -include <file>           Include the contents of <file> before other files
+  -imacros <file>           Accept definition of marcos in <file>
+  -iprefix <path>           Specify <path> as a prefix for next two options
+  -iwithprefix <dir>        Add <dir> to the end of the system include paths
+  -iwithprefixbefore <dir>  Add <dir> to the end of the main include paths
+  -isystem <dir>            Add <dir> to the start of the system include paths
+  -idirafter <dir>          Add <dir> to the end of the system include paths
+  -I <dir>                  Add <dir> to the end of the main include paths
+  -nostdinc                 Do not search the system include directories
+  -nostdinc++               Do not search the system include directories for C++
+  -o <file>                 Put output into <file>
+  -pedantic                 Issue all warnings demanded by strict ANSI C
+  -traditional              Follow K&R pre-processor behaviour
+  -trigraphs                Support ANSI C trigraphs
+  -lang-c                   Assume that the input sources are in C
+  -lang-c89                 Assume that the input sources are in C89
+  -lang-c++                 Assume that the input sources are in C++
+  -lang-objc                Assume that the input sources are in ObjectiveC
+  -lang-objc++              Assume that the input sources are in ObjectiveC++
+  -lang-asm                 Assume that the input sources are in assembler
+  -lang-chill               Assume that the input sources are in Chill
+  -+                        Allow parsing of C++ style features
+  -w                        Inhibit warning messages
+  -Wtrigraphs               Warn if trigraphs are encountered
+  -Wno-trigraphs            Do not warn about trigraphs
+  -Wcomment{s}              Warn if one comment starts inside another
+  -Wno-comment{s}           Do not warn about comments
+  -Wtraditional             Warn if a macro argument is/would be turned into
+                             a string if -tradtional is specified
+  -Wno-traditional          Do not warn about stringification
+  -Wundef                   Warn if an undefined macro is used by #if
+  -Wno-undef                Do not warn about testing udefined macros
+  -Wimport                  Warn about the use of the #import directive
+  -Wno-import               Do not warn about the use of #import
+  -Werror                   Treat all warnings as errors
+  -Wno-error                Do not treat warnings as errors
+  -Wall                     Enable all preprocessor warnings
+  -M                        Generate make dependencies
+  -MM                       As -M, but ignore system header files
+  -MD                       As -M, but put output in a .d file
+  -MMD                      As -MD, but ignore system header files
+  -MG                       Treat missing header file as generated files
+  -g                        Include #define and #undef directives in the output
+  -D<macro>                 Define a <macro> with string '1' as its value
+  -D<macro>=<val>           Define a <macro> with <val> as its value
+  -A<question> (<answer>)   Assert the <answer> to <question>
+  -U<macro>                 Undefine <macro> 
+  -u or -undef              Do not predefine any macros
+  -v                        Display the version number
+  -H                        Print the name of header files as they are used
+  -C                        Do not discard comments
+  -dM                       Display a list of macro definitions active at end
+  -dD                       Preserve macro definitions in output
+  -dN                       As -dD except that only the names are preserved
+  -dI                       Include #include directives in the output
+  -ifoutput                 Describe skipped code blocks in output 
+  -P                        Do not generate #line directives
+  -$                        Do not include '$' in identifiers
+  -remap                    Remap file names when including files.
+  -h or --help              Display this information

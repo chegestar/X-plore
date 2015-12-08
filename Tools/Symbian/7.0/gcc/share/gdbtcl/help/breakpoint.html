@@ -1,0 +1,116 @@
+<HTML>
+<HEAD>
+<TITLE>Breakpoint Window Help</TITLE>
+</HEAD>
+<BODY>
+<H1>The Breakpoint Window</H1>
+<H3>Overview</H3>
+<P>The Breakpoint Window lists all the various breakpoints that exist in
+the program. It facilitates modifying breakpoints (make them
+temporary or normal, disabled or enabled) and removing breakpoints.</P>
+
+<P>Breakpoint Window topics:
+<UL>
+    <LI><UL><A HREF="#menus">Menus</A>
+            <LI><A HREF="#menus_bp">Breakpoint Menu</A>
+            <LI><A HREF="#menus_global">Global Menu</A>
+        </UL>
+    <LI><UL><A HREF="#display">Breakpoint Display</A>
+            <LI><A HREF="#display_state">Enabling/Disabling Breakpoints</A>
+            <LI><A HREF="#display_temp">Changing a Breakpoint's Type</A>
+            <LI><A HREF="#display_remove">Removing Breakpoints</A>
+            <LI><A HREF="#display_popup">Breakpoint Pop-up Menu</A>
+        </UL>
+</UL></P>
+
+<H3><A NAME="menus">Menus</A></H3>
+The Breakpoint Window contains two menus, one which deals specifically with
+the individual breakpoints selected in the window, and one whose commands
+affect all breakpoints.
+<BR>
+
+<H4><A NAME="menus_bp">Breakpoint Menu</A></H4>
+The Breakpoint Menu operates on the selected breakpoint only. The type and
+state of a breakpoint may be changed by selecting the desired type or
+state from the menu:
+<DL>
+    <DT>Normal
+        <DD>The selected breakpoint is a normal breakpoint
+    <DT>Temporary
+        <DD>Indicates that the breakpoint is temporary
+    <DT>Enabled
+        <DD>The breakpoint is active and will stop the debugger
+            when it is hit.
+    <DT>Disabled
+        <DD>The breakpoint is being ignored. A disabled breakpoint
+            will never get hit.
+    <DT>Remove
+        <DD>Deletes the breakpoint
+</DL>
+<BR>
+
+<H4><A NAME="menus_global">Global Menu</A></H4>
+Items on the Global Menu affect all defined breakpoints. Users may:
+<DL>
+    <DT>Enable All
+        <DD>Enable all breakpoints
+    <DT>Disable All
+        <DD>Disable all breakpoints
+    <DT>Remove All
+       <DD>Delete all breakpoints
+</DL>
+<BR>
+
+<H4><A NAME="display">Breakpoint Display</A></H4>
+The Breakpoint Display is a table of breakpoints. The first column of the
+table (unlabeled) shows a checkbutton, indicating whether the breakpoint
+is enabled (checked) or disabled (unchecked). Disabled breakpoints are
+ignored and will not cause the program to stop.
+
+<P>To use the Breakpoint Menu or the Breakpoint Pop-up Menu, first use
+the left mouse button to select a breakpoint from the list, then make the
+menu selection.</P>
+
+<H3>Modifying Breakpoints</H3>
+To <A NAME="display_state">enable</A> a breakpoint, simply click the
+checkbutton in the first column of the desired breakpoint so that it is
+selected (checked). To disable a breakpoint, "uncheck" the checkbutton.
+
+<P>To change a breakpoint's <A NAME="display_temp">type</A>, select the
+desired type from either the Breakpoint Menu or the Breakpoint Pop-up Menu.
+</P>
+
+<P>To remove a <A NAME="display_remove">breakpoint</A>, use the left mouse
+button to select the breakpoint to remove and use either the Breakpoint Menu
+or the Breakpoint Pop-up Menu to select "remove". To re-install a breakpoint,
+use the <A HREF="source.html#setting_a_breakpoint">Source Window Display</A>.
+</P>
+<BR>
+
+<H4><A NAME="display_popup">Breakpoint Pop-up Menu</A></H4>
+The Breakpoint Pop-up Menu is accessed by using the mouse cursor to select
+a breakpoint from the Breakpoint Display and then clicking the right button
+on the mouse. The Pop-up allows expert users quicker access to the functions
+of the Breakpoint Menu:
+<DL>
+    <DT>Normal
+        <DD>The selected breakpoint is a normal breakpoint
+    <DT>Temporary
+        <DD>Indicates that the breakpoint is temporary
+    <DT>Enabled
+        <DD>The breakpoint is active and will stop the debugger
+            when it is hit.
+    <DT>Disabled
+        <DD>The breakpoint is being ignored. A disabled breakpoint
+            will never get hit.
+    <DT>Remove
+        <DD>Deletes the breakpoint
+    <DT>Global, Enable All
+        <DD>Enable all breakpoints
+    <DT>Global, Disable All
+        <DD>Disable all breakpoints
+    <DT>Global, Remove All
+       <DD>Delete all breakpoints
+</DL>
+</BODY>
+</HTML>

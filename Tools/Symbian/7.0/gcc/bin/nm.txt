@@ -1,0 +1,10 @@
+Usage: nm.exe [-aABCDglnopPrsuvV] [-t radix] [--radix=radix] [--target=bfdname]
+       [--debug-syms] [--extern-only] [--print-armap] [--print-file-name]
+       [--numeric-sort] [--no-sort] [--reverse-sort] [--size-sort]
+       [--undefined-only] [--portability] [-f {bsd,sysv,posix}]
+       [--format={bsd,sysv,posix}] [--demangle] [--no-demangle] [--dynamic]
+       [--defined-only] [--line-numbers]
+       [--version] [--help]
+       [file...]
+nm.exe: supported targets: epoc-pe-arm-little epoc-pe-arm-big epoc-pei-arm-little epoc-pei-arm-big srec symbolsrec tekhex binary ihex
+Report bugs to bug-gnu-utils@gnu.org

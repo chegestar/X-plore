@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE board SYSTEM "board.dtd">
+<!-- Description for Symbian ADT
+
+     Version: Symbian ADT Sourcery G++ Lite 4.4-172
+     Support: https://support.codesourcery.com/GNUToolchain/
+
+     Copyright (c) 2007, 2008, 2009, 2010 CodeSourcery, Inc.
+
+     THIS FILE CONTAINS PROPRIETARY, CONFIDENTIAL, AND TRADE SECRET
+     INFORMATION OF CODESOURCERY AND/OR ITS LICENSORS.
+
+     You may not use or distribute this file without the express written
+     permission of CodeSourcery or its authorized distributor.  This file is
+     licensed only for use with Sourcery G++.  No other use is permitted.
+     -->
+<board>
+  <memory-map>
+  </memory-map>
+</board>
+<!-- checksum: 50534d7006dc2a96d129 -->

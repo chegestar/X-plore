@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "X-plore", "X-plore.vcproj", "{8A3B7DFF-B337-4D4E-AF8E-3D4F82F69D7F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3626289D-CBD6-48AD-A025-A7BD7C07B00C} = {3626289D-CBD6-48AD-A025-A7BD7C07B00C}
+		{11DCF8A1-ABAB-47B7-88E4-7F1BE83751C9} = {11DCF8A1-ABAB-47B7-88E4-7F1BE83751C9}
+		{E591B6AB-910F-4658-A8EB-55E36AA5015A} = {E591B6AB-910F-4658-A8EB-55E36AA5015A}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinLib", "..\..\LibSrc\Windows\WinLib.vcproj", "{11DCF8A1-ABAB-47B7-88E4-7F1BE83751C9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImgLib", "..\..\LibSrc\ImgLib\ImgLib.vcproj", "{3626289D-CBD6-48AD-A025-A7BD7C07B00C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SymbLib", "..\..\LibSrc\Symbian\SymbLib.vcproj", "{E591B6AB-910F-4658-A8EB-55E36AA5015A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		S60 3rd Release|Win32 = S60 3rd Release|Win32
+		S60 Release|Win32 = S60 Release|Win32
+		Win32 S60 UI|Win32 = Win32 S60 UI|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8A3B7DFF-B337-4D4E-AF8E-3D4F82F69D7F}.S60 3rd Release|Win32.ActiveCfg = S60 3rd Release|Win32
+		{8A3B7DFF-B337-4D4E-AF8E-3D4F82F69D7F}.S60 3rd Release|Win32.Build.0 = S60 3rd Release|Win32
+		{8A3B7DFF-B337-4D4E-AF8E-3D4F82F69D7F}.S60 Release|Win32.ActiveCfg = S60 Release|Win32
+		{8A3B7DFF-B337-4D4E-AF8E-3D4F82F69D7F}.S60 Release|Win32.Build.0 = S60 Release|Win32
+		{8A3B7DFF-B337-4D4E-AF8E-3D4F82F69D7F}.Win32 S60 UI|Win32.ActiveCfg = Win32 S60 UI|Win32
+		{8A3B7DFF-B337-4D4E-AF8E-3D4F82F69D7F}.Win32 S60 UI|Win32.Build.0 = Win32 S60 UI|Win32
+		{11DCF8A1-ABAB-47B7-88E4-7F1BE83751C9}.S60 3rd Release|Win32.ActiveCfg = Debug|Win32
+		{11DCF8A1-ABAB-47B7-88E4-7F1BE83751C9}.S60 Release|Win32.ActiveCfg = Debug|Win32
+		{11DCF8A1-ABAB-47B7-88E4-7F1BE83751C9}.Win32 S60 UI|Win32.ActiveCfg = Debug|Win32
+		{11DCF8A1-ABAB-47B7-88E4-7F1BE83751C9}.Win32 S60 UI|Win32.Build.0 = Debug|Win32
+		{3626289D-CBD6-48AD-A025-A7BD7C07B00C}.S60 3rd Release|Win32.ActiveCfg = Symbian 3rd Release|Win32
+		{3626289D-CBD6-48AD-A025-A7BD7C07B00C}.S60 3rd Release|Win32.Build.0 = Symbian 3rd Release|Win32
+		{3626289D-CBD6-48AD-A025-A7BD7C07B00C}.S60 Release|Win32.ActiveCfg = Symbian Release S60|Win32
+		{3626289D-CBD6-48AD-A025-A7BD7C07B00C}.S60 Release|Win32.Build.0 = Symbian Release S60|Win32
+		{3626289D-CBD6-48AD-A025-A7BD7C07B00C}.Win32 S60 UI|Win32.ActiveCfg = Win32_Debug|Win32
+		{3626289D-CBD6-48AD-A025-A7BD7C07B00C}.Win32 S60 UI|Win32.Build.0 = Win32_Debug|Win32
+		{E591B6AB-910F-4658-A8EB-55E36AA5015A}.S60 3rd Release|Win32.ActiveCfg = S60 3rd Release|Win32
+		{E591B6AB-910F-4658-A8EB-55E36AA5015A}.S60 3rd Release|Win32.Build.0 = S60 3rd Release|Win32
+		{E591B6AB-910F-4658-A8EB-55E36AA5015A}.S60 Release|Win32.ActiveCfg = S60 Release|Win32
+		{E591B6AB-910F-4658-A8EB-55E36AA5015A}.S60 Release|Win32.Build.0 = S60 Release|Win32
+		{E591B6AB-910F-4658-A8EB-55E36AA5015A}.Win32 S60 UI|Win32.ActiveCfg = S60 3rd Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

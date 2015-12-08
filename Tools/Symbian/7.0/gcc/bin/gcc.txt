@@ -1,0 +1,40 @@
+Usage: gcc.exe [options] file...
+Options:
+  --help                   Display this information
+  (Use '-v --help' to display command line options of sub-processes)
+  -dumpspecs               Display all of the built in spec strings
+  -dumpversion             Display the version of the compiler
+  -dumpmachine             Display the compiler's target processor
+  -print-search-dirs       Display the directories in the compiler's search path
+  -print-libgcc-file-name  Display the name of the compiler's companion library
+  -print-file-name=<lib>   Display the full path to library <lib>
+  -print-prog-name=<prog>  Display the full path to compiler component <prog>
+  -print-multi-directory   Display the root directory for versions of libgcc
+  -print-multi-lib         Display the mapping between command line options and
+                            multiple library search directories
+  -Wa,<options>            Pass comma-separated <options> on to the assembler
+  -Wp,<options>            Pass comma-separated <options> on to the preprocessor
+  -Wl,<options>            Pass comma-separated <options> on to the linker
+  -Xlinker <arg>           Pass <arg> on to the linker
+  -save-temps              Do not delete intermediate files
+  -pipe                    Use pipes rather than intermediate files
+  -specs=<file>            Override builtin specs with the contents of <file>
+  -B <directory>           Add <directory> to the compiler's search paths
+  -b <machine>             Run gcc for target <machine>, if installed
+  -V <version>             Run gcc version number <version>, if installed
+  -v                       Display the programs invoked by the compiler
+  -E                       Preprocess only; do not compile, assemble or link
+  -S                       Compile only; do not assemble or link
+  -c                       Compile and assemble, but do not link
+  -o <file>                Place the output into <file>
+  -x <language>            Specify the language of the following input files
+                            Permissable languages include: c c++ assembler none
+                            'none' means revert to the default behaviour of
+                            guessing the language based on the file's extension
+
+Options starting with -g, -f, -m, -O or -W are automatically passed on to
+the various sub-processes invoked by gcc.exe.  In order to pass other options
+on to these processes the -W<letter> options must be used.
+
+Report bugs to egcs-bugs@cygnus.com.
+Please see the file BUGS (included with the sources) first.

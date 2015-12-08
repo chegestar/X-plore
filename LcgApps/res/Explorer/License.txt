@@ -1,0 +1,4 @@
+X-plore - opensource version
+
+This X-plore is built from opensource, and may be modified.
+Use at your own risk.

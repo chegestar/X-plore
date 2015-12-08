@@ -1,0 +1,17 @@
+#{"X-plore"},(0xa000b86e),1,65,0
+%{"Lonely Cat Games"}
+:"Lonely Cat Games"
+[0x101F7961], 0, 0, 0, {"Series60ProductID"}
+[0x1028315F], 0, 0, 0, {"Series60ProductID"}
+
+;----------------------------
+
+"_build\Explorer\S60_Release_3rd\lcg32.bin"           - "!:\private\a000b86e\app.bin"
+"_build\Explorer\S60_Release_3rd\StubE32.exe"         - "!:\sys\bin\Xplore.exe"
+"_build\Explorer\S60_Release_3rd\resources.rsc"       - "!:\resource\apps\Xplore.rsc"
+"_build\Explorer\S60_Release_3rd\resources_reg.rsc"   - "!:\private\10003a3f\import\apps\Xplore_reg.rsc"
+"_build\Explorer\S60_Release_3rd\icon.mif"            - "!:\resource\apps\Xplore.mif"
+
+"_build\Explorer\S60_Release_3rd\Data.dta"            - "!:\private\a000b86e\Explorer\Data.dta"
+
+"..\res\Explorer\License.txt"                - "!:\private\a000b86e\Explorer\License.txt"

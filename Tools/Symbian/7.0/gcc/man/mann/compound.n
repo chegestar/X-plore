@@ -1,0 +1,709 @@
+'\"
+'\" Copyright (c) 1996, Expert Interface Technologies
+'\"
+'\" See the file "license.terms" for information on usage and redistribution
+'\" of this file, and for a DISCLAIMER OF ALL WARRANTIES.
+'\" 
+'\" The definitions below are for supplemental macros used in Tix
+'\" manual entries.
+'\"
+'\" .HS name section [date [version]]
+'\"	Replacement for .TH in other man pages.  See below for valid
+'\"	section names.
+'\"
+'\" .AP type name in/out [indent]
+'\"	Start paragraph describing an argument to a library procedure.
+'\"	type is type of argument (int, etc.), in/out is either "in", "out",
+'\"	or "in/out" to describe whether procedure reads or modifies arg,
+'\"	and indent is equivalent to second arg of .IP (shouldn't ever be
+'\"	needed;  use .AS below instead)
+'\"
+'\" .AS [type [name]]
+'\"	Give maximum sizes of arguments for setting tab stops.  Type and
+'\"	name are examples of largest possible arguments that will be passed
+'\"	to .AP later.  If args are omitted, default tab stops are used.
+'\"
+'\" .BS
+'\"	Start box enclosure.  From here until next .BE, everything will be
+'\"	enclosed in one large box.
+'\"
+'\" .BE
+'\"	End of box enclosure.
+'\"
+'\" .VS
+'\"	Begin vertical sidebar, for use in marking newly-changed parts
+'\"	of man pages.
+'\"
+'\" .VE
+'\"	End of vertical sidebar.
+'\"
+'\" .DS
+'\"	Begin an indented unfilled display.
+'\"
+'\" .DE
+'\"	End of indented unfilled display.
+'\"
+.\"
+'\"	# Heading for Tix man pages
+.de HS
+.ds ^3 \\0
+.if !"\\$3"" .ds ^3 \\$3
+.if '\\$2'cmds'      .TH "\\$1" 1 "\\*(^3" "\\$4" "\\$5"
+.if '\\$2'lib'       .TH "\\$1" 3 "\\*(^3" "\\$4" "\\$5"
+.if '\\$2'ncmds'     .TH "\\$1" n "\\*(^3" "\\$4" "\\$5"
+.if '\\$2'tcl'       .TH "\\$1" n "\\*(^3"  Tcl   "Tcl Built-In Commands"
+.if '\\$2'tk'        .TH "\\$1" n "\\*(^3"  Tk    "Tk Commands"
+.if '\\$2'tclc'      .TH "\\$1" 3 "\\*(^3"  Tcl   "Tcl Library Procedures"
+.if '\\$2'tkc'       .TH "\\$1" 3 "\\*(^3"  Tk    "Tk Library Procedures"
+.if '\\$2'tclcmds'   .TH "\\$1" 1 "\\*(^3"  Tcl    "Tcl Applications"
+.if '\\$2'tkcmds'    .TH "\\$1" 1 "\\*(^3"  Tk    "Tk Applications"
+.if '\\$2'tix'        .TH "\\$1" n "\\*(^3"  Tix    "Tix Commands"
+.if '\\$2'tixcmds'    .TH "\\$1" 1 "\\*(^3"  Tix    "Tix Applications"
+.if t .wh -1.3i ^B
+.nr ^l \\n(.l
+.ad b
+..
+'\"	# Start an argument description
+.de AP
+.ie !"\\$4"" .TP \\$4
+.el \{\
+.   ie !"\\$2"" .TP \\n()Cu
+.   el          .TP 15
+.\}
+.ie !"\\$3"" \{\
+.ta \\n()Au \\n()Bu
+\&\\$1	\\fI\\$2\\fP	(\\$3)
+.\".b
+.\}
+.el \{\
+.br
+.ie !"\\$2"" \{\
+\&\\$1	\\fI\\$2\\fP
+.\}
+.el \{\
+\&\\fI\\$1\\fP
+.\}
+.\}
+..
+'\"	# define tabbing values for .AP
+.de AS
+.nr )A 10n
+.if !"\\$1"" .nr )A \\w'\\$1'u+3n
+.nr )B \\n()Au+15n
+.\"
+.if !"\\$2"" .nr )B \\w'\\$2'u+\\n()Au+3n
+.nr )C \\n()Bu+\\w'(in/out)'u+2n
+..
+'\"	# BS - start boxed text
+'\"	# ^y = starting y location
+'\"	# ^b = 1
+.de BS
+.br
+.mk ^y
+.nr ^b 1u
+.if n .nf
+.if n .ti 0
+.if n \l'\\n(.lu\(ul'
+.if n .fi
+..
+'\"	# BE - end boxed text (draw box now)
+.de BE
+.nf
+.ti 0
+.mk ^t
+.ie n \l'\\n(^lu\(ul'
+.el \{\
+.\"	Draw four-sided box normally, but don't draw top of
+.\"	box if the box started on an earlier page.
+.ie !\\n(^b-1 \{\
+\h'-1.5n'\L'|\\n(^yu-1v'\l'\\n(^lu+3n\(ul'\L'\\n(^tu+1v-\\n(^yu'\l'|0u-1.5n\(ul'
+.\}
+.el \}\
+\h'-1.5n'\L'|\\n(^yu-1v'\h'\\n(^lu+3n'\L'\\n(^tu+1v-\\n(^yu'\l'|0u-1.5n\(ul'
+.\}
+.\}
+.fi
+.br
+.nr ^b 0
+..
+'\"	# VS - start vertical sidebar
+'\"	# ^Y = starting y location
+'\"	# ^v = 1 (for troff;  for nroff this doesn't matter)
+.de VS
+.mk ^Y
+.ie n 'mc \s12\(br\s0
+.el .nr ^v 1u
+..
+'\"	# VE - end of vertical sidebar
+.de VE
+.ie n 'mc
+.el \{\
+.ev 2
+.nf
+.ti 0
+.mk ^t
+\h'|\\n(^lu+3n'\L'|\\n(^Yu-1v\(bv'\v'\\n(^tu+1v-\\n(^Yu'\h'-|\\n(^lu+3n'
+.sp -1
+.fi
+.ev
+.\}
+.nr ^v 0
+..
+'\"	# Special macro to handle page bottom:  finish off current
+'\"	# box/sidebar if in box/sidebar mode, then invoked standard
+'\"	# page bottom macro.
+.de ^B
+.ev 2
+'ti 0
+'nf
+.mk ^t
+.if \\n(^b \{\
+.\"	Draw three-sided box if this is the box's first page,
+.\"	draw two sides but no top otherwise.
+.ie !\\n(^b-1 \h'-1.5n'\L'|\\n(^yu-1v'\l'\\n(^lu+3n\(ul'\L'\\n(^tu+1v-\\n(^yu'\h'|0u'\c
+.el \h'-1.5n'\L'|\\n(^yu-1v'\h'\\n(^lu+3n'\L'\\n(^tu+1v-\\n(^yu'\h'|0u'\c
+.\}
+.if \\n(^v \{\
+.nr ^x \\n(^tu+1v-\\n(^Yu
+\kx\h'-\\nxu'\h'|\\n(^lu+3n'\ky\L'-\\n(^xu'\v'\\n(^xu'\h'|0u'\c
+.\}
+.bp
+'fi
+.ev
+.if \\n(^b \{\
+.mk ^y
+.nr ^b 2
+.\}
+.if \\n(^v \{\
+.mk ^Y
+.\}
+..
+'\"	# DS - begin display
+.de DS
+.RS
+.nf
+.sp
+..
+'\"	# DE - end display
+.de DE
+.fi
+.RE
+.sp
+..
+'\" copyrighted: (c) 1990 The Regents of the University of California.
+'\"              (c) 1994-1995 Sun Microsystems, Inc.
+'\" The license terms of the Tcl/Tk distrobution are in the file
+'\" license.tcl.
+'\" The definitions below are for supplemental macros used in Tix
+'\" manual entries.
+'\"
+'\" .HS name section [date [version]]
+'\"	Replacement for .TH in other man pages.  See below for valid
+'\"	section names.
+'\"
+'\" .AP type name in/out [indent]
+'\"	Start paragraph describing an argument to a library procedure.
+'\"	type is type of argument (int, etc.), in/out is either "in", "out",
+'\"	or "in/out" to describe whether procedure reads or modifies arg,
+'\"	and indent is equivalent to second arg of .IP (shouldn't ever be
+'\"	needed;  use .AS below instead)
+'\"
+'\" .AS [type [name]]
+'\"	Give maximum sizes of arguments for setting tab stops.  Type and
+'\"	name are examples of largest possible arguments that will be passed
+'\"	to .AP later.  If args are omitted, default tab stops are used.
+'\"
+'\" .BS
+'\"	Start box enclosure.  From here until next .BE, everything will be
+'\"	enclosed in one large box.
+'\"
+'\" .BE
+'\"	End of box enclosure.
+'\"
+'\" .VS
+'\"	Begin vertical sidebar, for use in marking newly-changed parts
+'\"	of man pages.
+'\"
+'\" .VE
+'\"	End of vertical sidebar.
+'\"
+'\" .DS
+'\"	Begin an indented unfilled display.
+'\"
+'\" .DE
+'\"	End of indented unfilled display.
+'\"
+.\"
+'\"	# Heading for Tix man pages
+.de HS
+.ds ^3 \\0
+.if !"\\$3"" .ds ^3 \\$3
+.if '\\$2'cmds'      .TH "\\$1" 1 "\\*(^3" "\\$4" "\\$5"
+.if '\\$2'lib'       .TH "\\$1" 3 "\\*(^3" "\\$4" "\\$5"
+.if '\\$2'ncmds'     .TH "\\$1" n "\\*(^3" "\\$4" "\\$5"
+.if '\\$2'tcl'       .TH "\\$1" n "\\*(^3"  Tcl   "Tcl Built-In Commands"
+.if '\\$2'tk'        .TH "\\$1" n "\\*(^3"  Tk    "Tk Commands"
+.if '\\$2'tclc'      .TH "\\$1" 3 "\\*(^3"  Tcl   "Tcl Library Procedures"
+.if '\\$2'tkc'       .TH "\\$1" 3 "\\*(^3"  Tk    "Tk Library Procedures"
+.if '\\$2'tclcmds'   .TH "\\$1" 1 "\\*(^3"  Tcl    "Tcl Applications"
+.if '\\$2'tkcmds'    .TH "\\$1" 1 "\\*(^3"  Tk    "Tk Applications"
+.if '\\$2'tix'        .TH "\\$1" n "\\*(^3"  Tix    "Tix Commands"
+.if '\\$2'tixcmds'    .TH "\\$1" 1 "\\*(^3"  Tix    "Tix Applications"
+.if t .wh -1.3i ^B
+.nr ^l \\n(.l
+.ad b
+..
+'\"	# Start an argument description
+.de AP
+.ie !"\\$4"" .TP \\$4
+.el \{\
+.   ie !"\\$2"" .TP \\n()Cu
+.   el          .TP 15
+.\}
+.ie !"\\$3"" \{\
+.ta \\n()Au \\n()Bu
+\&\\$1	\\fI\\$2\\fP	(\\$3)
+.\".b
+.\}
+.el \{\
+.br
+.ie !"\\$2"" \{\
+\&\\$1	\\fI\\$2\\fP
+.\}
+.el \{\
+\&\\fI\\$1\\fP
+.\}
+.\}
+..
+'\"	# define tabbing values for .AP
+.de AS
+.nr )A 10n
+.if !"\\$1"" .nr )A \\w'\\$1'u+3n
+.nr )B \\n()Au+15n
+.\"
+.if !"\\$2"" .nr )B \\w'\\$2'u+\\n()Au+3n
+.nr )C \\n()Bu+\\w'(in/out)'u+2n
+..
+'\"	# BS - start boxed text
+'\"	# ^y = starting y location
+'\"	# ^b = 1
+.de BS
+.br
+.mk ^y
+.nr ^b 1u
+.if n .nf
+.if n .ti 0
+.if n \l'\\n(.lu\(ul'
+.if n .fi
+..
+'\"	# BE - end boxed text (draw box now)
+.de BE
+.nf
+.ti 0
+.mk ^t
+.ie n \l'\\n(^lu\(ul'
+.el \{\
+.\"	Draw four-sided box normally, but don't draw top of
+.\"	box if the box started on an earlier page.
+.ie !\\n(^b-1 \{\
+\h'-1.5n'\L'|\\n(^yu-1v'\l'\\n(^lu+3n\(ul'\L'\\n(^tu+1v-\\n(^yu'\l'|0u-1.5n\(ul'
+.\}
+.el \}\
+\h'-1.5n'\L'|\\n(^yu-1v'\h'\\n(^lu+3n'\L'\\n(^tu+1v-\\n(^yu'\l'|0u-1.5n\(ul'
+.\}
+.\}
+.fi
+.br
+.nr ^b 0
+..
+'\"	# VS - start vertical sidebar
+'\"	# ^Y = starting y location
+'\"	# ^v = 1 (for troff;  for nroff this doesn't matter)
+.de VS
+.mk ^Y
+.ie n 'mc \s12\(br\s0
+.el .nr ^v 1u
+..
+'\"	# VE - end of vertical sidebar
+.de VE
+.ie n 'mc
+.el \{\
+.ev 2
+.nf
+.ti 0
+.mk ^t
+\h'|\\n(^lu+3n'\L'|\\n(^Yu-1v\(bv'\v'\\n(^tu+1v-\\n(^Yu'\h'-|\\n(^lu+3n'
+.sp -1
+.fi
+.ev
+.\}
+.nr ^v 0
+..
+'\"	# Special macro to handle page bottom:  finish off current
+'\"	# box/sidebar if in box/sidebar mode, then invoked standard
+'\"	# page bottom macro.
+.de ^B
+.ev 2
+'ti 0
+'nf
+.mk ^t
+.if \\n(^b \{\
+.\"	Draw three-sided box if this is the box's first page,
+.\"	draw two sides but no top otherwise.
+.ie !\\n(^b-1 \h'-1.5n'\L'|\\n(^yu-1v'\l'\\n(^lu+3n\(ul'\L'\\n(^tu+1v-\\n(^yu'\h'|0u'\c
+.el \h'-1.5n'\L'|\\n(^yu-1v'\h'\\n(^lu+3n'\L'\\n(^tu+1v-\\n(^yu'\h'|0u'\c
+.\}
+.if \\n(^v \{\
+.nr ^x \\n(^tu+1v-\\n(^Yu
+\kx\h'-\\nxu'\h'|\\n(^lu+3n'\ky\L'-\\n(^xu'\v'\\n(^xu'\h'|0u'\c
+.\}
+.bp
+'fi
+.ev
+.if \\n(^b \{\
+.mk ^y
+.nr ^b 2
+.\}
+.if \\n(^v \{\
+.mk ^Y
+.\}
+..
+'\"	# DS - begin display
+.de DS
+.RS
+.nf
+.sp
+..
+'\"	# DE - end display
+.de DE
+.fi
+.RE
+.sp
+..
+.HS compound tix 4.0
+.BS
+.SH NAME
+Compound \- Create multi-line compound images.
+.SH SYNOPSIS
+\fBimage create compound \fR?\fIname\fR? ?\fIoptions\fR?
+.BE
+'
+.SH DESCRIPTION
+.PP
+'
+Compound image types can be used to create images that consists of
+multiple horizontal lines; each line is composed of a series of items
+(texts, bitmaps, images or spaces) arranged from left to
+right. Compound images are mainly used to embed complex drawings into
+widgets that support the \fB\-image\fR option. As shown in the EXAMPLE
+section below, a compound image can be used to display a bitmap and a
+text string simutaneously in a TK \fBbutton(n)\fR widget.
+'
+.SH "CREATING COMPOUND IMAGES"
+.PP
+Like all images, compound images are created using the \fBimage create\fR
+command. Compound images support the following \fIoptions\fR:
+.TP
+\fB\-background \fIcolor\fR
+'
+Specifies the background color of the compound image. This color is
+also used as the default background color for the bitmap items in the
+compound image.
+'
+.TP
+\fB\-borderwidth \fIpixels\fR
+'
+Specifies a non-negative value indicating the width of the 3-D border
+drawn around the compound image.
+'
+.TP
+\fB\-font \fIfont\fR
+'
+Specifies the default font for the text items in the compound image.
+'
+.TP
+\fB\-foreground \fIcolor\fR
+'
+Specifies the default foreground color for the bitmap and text items
+in the compound image.
+'
+.TP
+\fB\-padx \fIvalue\fR
+'
+Specifies a non-negative value indicating how much extra space to
+request for the compound image in the X-direction. The \fIvalue\fR may
+have any of the forms acceptable to \fBTk_GetPixels(3)\fR.
+'
+.TP
+\fB\-pady \fIvalue\fR
+'
+Specifies a non-negative value indicating how much extra space to
+request for the compound image in the Y-direction.
+.TP
+\fB\-relief \fIvalue\fR
+'
+Specifies the 3-D effect desired for the background of the compound
+image. Acceptable values are \fBraised\fR, \fBsunken\fR, \fBflat\fR,
+\fBridge\fR, and \fBgroove\fR.
+'
+.TP
+\fB\-showbackground \fIvalue\fR
+'
+Specifies whether the background and the 3D borders should be drawn.
+Must be a valid boolean value. By default the background is not drawn
+and the compound image appears to have a transparent background.
+'
+.TP
+\fB\-window \fIpathName\fR
+'
+Specifies the window in which the compound image is displayed. One
+compound image can be displayed in only one window. When that window
+is destroyed, the compound image is automatically destroyed as well.
+This option must be specified when calling the \fBimage create
+compound\fR command and cannot be changed by the \fBconfigure\fR image
+command.
+'
+.SH "IMAGE COMMAND"
+.PP
+When a compound image is created, Tk also creates a new command whose
+name is the same as the image. This command may be used to invoke
+various operations on the image. It has the following general form:
+.DS C
+\fIimageName option \fR?\fIarg arg ...\fR?
+.DE
+\fIOption\fR and the \fIarg\fRs
+'
+determine the exact behavior of the command. The following
+commands are possible for compound images:
+'
+'
+.TP
+\fIimageName \fBadd line\fR ?\fIoption value ...\fR?
+'
+Creates a new line at the bottom of the compound image. Lines support
+the following \fIoptions\fR:
+.RS
+.TP
+\fB\-anchor\fR value
+'
+Specifies how the line should be aligned along the horizontal axis.
+When the values are \fBw\fR, \fBsw\fR or \fBnw\fR, the line is aligned
+to the left. When the values are \fBc\fR, \fBs\fR or \fBn\fR, the line
+is aligned to the middle.  When the values are \fBe\fR, \fBse\fR or
+\fBne\fR, the line is aligned to the right.
+'
+.TP
+\fB\-padx \fIvalue\fR
+'
+Specifies a non-negative value indicating how much extra space to
+request for this line in the X-direction.
+.RE
+'
+.TP
+\fIimageName \fBadd \fIitem-type\fR ?\fIoption value ...\fR?
+'
+Creates a new item of the type \fIitem-type\fR at the end of the last
+line of the compound image. All types of items support
+these following common \fIoptions\fR:
+.RS
+.TP
+\fB-anchor\fR value
+'
+Specifies how the item should be aligned along the vertical axis. When
+the values are \fBn\fR, \fBnw\fR or \fBne\fR, the item is aligned to
+the top of the line. When the values are \fBc\fR, \fBw\fR or \fBe\fR,
+the item is aligned to the middle of the line.  When the values are
+\fBs\fR, \fBse\fR or \fBsw\fR, the item is aligned to the bottom of
+the line.
+'
+.TP
+\fB\-padx \fIvalue\fR
+'
+Specifies a non-negative value indicating how much extra space to
+request for this item in the X-direction.
+'
+.TP
+\fB\-pady \fIvalue\fR
+'
+Specifies a non-negative value indicating how much extra space to
+request for this item in the Y-direction.
+'
+.TP
+\fIitem-type\fR can be any of the following:
+.RE
+'
+'----------------------------------------
+.TP
+\fIimageName \fBadd bitmap\fR ?\fIoption value ...\fR?
+'
+Creates a new bitmap item of at the end of the last
+line of the compound image. Additional \fIoptions\fR accepted by the
+bitmap type are:
+'
+.RS
+.TP
+\fB\-background \fIcolor\fR
+'
+Specifies the background color of the bitmap item.
+'
+'
+.TP
+\fB\-bitmap \fIname\fR
+'
+Specifies a bitmap to display in this item, in any of the forms
+acceptable to \fBTk_GetBitmap(3)\fR.
+'
+.TP
+\fB\-foreground \fIcolor\fR
+'
+Specifies the foreground color of the bitmap item.
+'
+.RE
+'----------------------------------------
+.TP
+\fIimageName \fBadd image\fR ?\fIoption value ...\fR?
+'
+Creates a new image item of at the end of the last
+line of the compound image. Additional \fIoptions\fR accepted by the
+image type are:
+'
+.RS
+.TP
+'
+.TP
+\fB\-image \fIname\fR
+'
+Specifies an image to display in this item. \fIname\fR 
+must have been created with the \fBimage create\fR command. 
+'
+.RE
+'----------------------------------------
+.TP
+\fIimageName \fBadd space\fR ?\fIoption value ...\fR?
+'
+Creates a new space item of at the end of the last line of the
+compound image. Space items do not display anything. They just acts as
+space holders that add additional spaces between items inside a
+compound image. Additional \fIoptions\fR accepted by the image type
+are:
+'
+.RS
+.TP
+'
+.TP
+\fB\-width \fIvalue\fR
+'
+Specifies the width of this space. The \fIvalue\fR may have any of the
+forms acceptable to \fBTk_GetPixels(3)\fR.
+'
+.TP
+\fB\-height \fIvalue\fR
+'
+Specifies the height of this space. The \fIvalue\fR may have any of
+the forms acceptable to \fBTk_GetPixels(3)\fR.
+'
+.RE
+'----------------------------------------
+.TP
+\fIimageName \fBadd text\fR ?\fIoption value ...\fR?
+'
+Creates a new text item of at the end of the last line of the compound
+image. Additional \fIoptions\fR accepted by the text type are:
+'
+.RS
+.TP
+\fB\-background \fIcolor\fR
+'
+Specifies the background color of the text item.
+'
+.TP
+\fB\-font \fIname\fR
+'
+Specifies the font to be used for this text item.
+'
+.TP
+\fB\-foreground \fIcolor\fR
+'
+Specifies the foreground color of the text item.
+'
+.TP
+\fB\-justify\fR \fIvalue\fR
+'
+When there are multiple lines of text displayed in a text item, this
+option determines how the lines line up with each other. \fIvalue\fR
+must be one of \fBleft\fR, \fBcenter\fR, or \fBright\fR.  \fBLeft\fR
+means that the lines' left edges all line up, \fBcenter\fR means that
+the lines' centers are aligned, and \fBright\fR means that the lines'
+right edges line up.
+'
+.TP
+\fB\-text \fIstring\fR
+'
+Specifies a text string to display in this text item.
+'
+.TP
+\fB\-underline\fR \fIvalue\fR
+'
+Specifies the integer index of a character to underline in the text
+item. 0 corresponds to the first character of the text displayed in
+the text item, 1 to the next character, and so on.
+'
+.TP
+\fB\-wraplength\fR \fIvalue\fR
+'
+This option specifies the maximum line length of the label string on
+this text item. If the line length of the label string exceeds this
+length, it is wrapped onto the next line, so that no line is longer
+than the specified length. The value may be specified in any of the
+standard forms for screen distances. If this value is less than or
+equal to 0 then no wrapping is done: lines will break only at newline
+characters in the text.
+'
+.RE
+'----------------------------------------
+'
+.TP
+\fIimageName \fBcget\fR \fIoption\fR
+'
+Returns the current value of the configuration option given by
+\fIoption\fR. \fIOption\fR may have any of the values accepted by the
+\fBimage create compound\fR command.
+'
+.TP
+\fIimageName \fBconfigure\fR ?\fIoption\fR? ?\fIvalue option value ...\fR? 
+'
+Query or modify the configuration options for the image. If no
+\fIoption\fR is specified, returns a list describing all of the
+available options for \fIimageName\fR (see \fBTk_ConfigureInfo\fR for
+information on the format of this list).  If \fIoption\fR is specified
+with no \fIvalue\fR, then the command returns a list describing the
+one named option (this list will be identical to the corresponding
+sublist of the value returned if no \fIoption\fR is specified).  If
+one or more \fIoption\-value\fR pairs are specified, then the command
+modifies the given option(s) to have the given value(s); in this case
+the command returns an empty string. \fIOption\fR may have any of the
+values accepted by the \fBimage create compound\fR command, except the
+\fB\-window\fR option
+'.
+'----------------------------------------
+'
+.SH EXAMPLE
+'
+The following example creates a compound image with a bitmap and a
+text string and places this image into a Tk \fBbitton(n)\fR
+widget. Notice that the image must be created after the creation of
+the window that it resides in.
+'
+.nf
+ button .b
+ set img [image create compound -window .b]
+ $img add line
+ $img add bitmap -bitmap warning
+ $img add space -width 8
+ $img add text -text "Warning" -underline 0
+ .b config -image $img
+ pack .b
+.fi
+'
+.SH KEYWORDS
+image(n), Tix(n)

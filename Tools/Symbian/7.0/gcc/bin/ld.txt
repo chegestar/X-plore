@@ -1,0 +1,118 @@
+Usage: ld.exe [options] file...
+Options:
+  -a KEYWORD                  Shared library control for HP/UX compatibility
+  -A ARCH, --architecture ARCH
+                              Set architecture
+  -b TARGET, --format TARGET  Specify target for following input files
+  -c FILE, --mri-script FILE  Read MRI format linker script
+  -d, -dc, -dp                Force common symbols to be defined
+  -e ADDRESS, --entry ADDRESS Set start address
+  -E, --export-dynamic        Export all dynamic symbols
+  -f SHLIB, --auxiliary SHLIB Auxiliary filter for shared object symbol table
+  -F SHLIB, --filter SHLIB    Filter for shared object symbol table
+  -g                          Ignored
+  --gc-sections               Remove unused sections on certain targets
+  --no-gc-sections            (Don't) Remove unused sections on certain targets
+  -G SIZE, --gpsize SIZE      Small data size (if no size, same as --shared)
+  -h FILENAME, -soname FILENAME
+                              Set internal name of shared library
+  -l LIBNAME, --library LIBNAME
+                              Search for library LIBNAME
+  -L DIRECTORY, --library-path DIRECTORY
+                              Add DIRECTORY to library search path
+  -m EMULATION                Set emulation
+  -M, --print-map             Print map file on standard output
+  -n, --nmagic                Do not page align data
+  -N, --omagic                Do not page align data, do not make text readonly
+  -o FILE, --output FILE      Set output file name
+  -O                          Ignored
+  -r, -i, --relocateable      Generate relocateable output
+  -R FILE, --just-symbols FILE
+                              Just link symbols (if directory, same as --rpath)
+  -s, --strip-all             Strip all symbols
+  -S, --strip-debug           Strip debugging symbols
+  -t, --trace                 Trace file opens
+  -T FILE, --script FILE      Read linker script
+  -u SYMBOL, --undefined SYMBOL
+                              Start with undefined reference to SYMBOL
+  -v, --version               Print version information
+  -V                          Print version and emulation information
+  -x, --discard-all           Discard all local symbols
+  -X, --discard-locals        Discard temporary local symbols
+  -y SYMBOL, --trace-symbol SYMBOL
+                              Trace mentions of SYMBOL
+  -Y PATH                     Default search path for Solaris compatibility
+  -z KEYWORD                  Ignored for Solaris compatibility
+  -(, --start-group           Start a group
+  -), --end-group             End a group
+  -assert KEYWORD             Ignored for SunOS compatibility
+  -Bdynamic, -dy, -call_shared
+                              Link against shared libraries
+  -Bstatic, -dn, -non_shared, -static
+                              Do not link against shared libraries
+  -Bsymbolic                  Bind global references locally
+  --cref                      Output cross reference table
+  --defsym SYMBOL=EXPRESSION  Define a symbol
+  --dynamic-linker PROGRAM    Set the dynamic linker to use
+  -EB                         Link big-endian objects
+  -EL                         Link little-endian objects
+  --embedded-relocs           Generate embedded relocs
+  --force-exe-suffix          Force generation of file with .exe suffix
+  --help                      Print option help
+  -Map FILE                   Write a map file
+  --no-keep-memory            Use less memory and more disk I/O
+  --no-warn-mismatch          Don't warn about mismatched input files
+  --no-whole-archive          Turn off --whole-archive
+  --noinhibit-exec            Create an output file even if errors occur
+  --oformat TARGET            Specify target of output file
+  -qmagic                     Ignored for Linux compatibility
+  -Qy                         Ignored for SVR4 compatibility
+  --relax                     Relax branches on certain targets
+  --retain-symbols-file FILE  Keep only symbols listed in FILE
+  -rpath PATH                 Set runtime shared library search path
+  -rpath-link PATH            Set link time shared library search path
+  -shared, -Bshareable        Create a shared library
+  --sort-common               Sort common symbols by size
+  --split-by-file             Split output sections for each file
+  --split-by-reloc COUNT      Split output sections every COUNT relocs
+  --stats                     Print memory usage statistics
+  --task-link SYMBOL          Do task level linking
+  --traditional-format        Use same format as native linker
+  -Tbss ADDRESS               Set address of .bss section
+  -Tdata ADDRESS              Set address of .data section
+  -Ttext ADDRESS              Set address of .text section
+  -Ur                         Build global constructor/destructor tables
+  --verbose                   Output lots of information during link
+  --version-script FILE       Read version information script
+  --version-exports-section SYMBOL
+                              Take export symbols list from .exports, using SYMBOL as the version.
+  --warn-common               Warn about duplicate common symbols
+  --warn-constructors         Warn if global constructors/destructors are seen
+  --warn-multiple-gp          Warn if the multiple GP values are used
+  --warn-once                 Warn only once per undefined symbol
+  --warn-section-align        Warn if start of section changes due to alignment
+  --whole-archive             Include all objects from following archives
+  --wrap SYMBOL               Use wrapper functions for SYMBOL
+ld.exe: supported targets: epoc-pe-arm-little epoc-pe-arm-big epoc-pei-arm-little epoc-pei-arm-big srec symbolsrec tekhex binary ihex
+ld.exe: supported emulations: arm_epoc_pe
+ld.exe: emulation specific options:
+arm_epoc_pe: 
+  --base_file <basefile>             Generate a base file for relocatable DLLs
+  --dll                              Set image base to the default for DLLs
+  --file-alignment <size>            Set file alignment
+  --heap <size>                      Set initial size of the heap
+  --image-base <address>             Set start address of the executable
+  --major-image-version <number>     Set version number of the executable
+  --major-os-version <number>        Set minimum required OS version
+  --major-subsystem-version <number> Set minimum required OS subsystem version
+  --minor-image-version <number>     Set revision number of the executable
+  --minor-os-version <number>        Set minimum required OS revision
+  --minor-subsystem-version <number> Set minimum required OS subsystem revision
+  --section-alignment <size>         Set section alignment
+  --stack <size>                     Set size of the initial stack
+  --subsystem <name>[:<version>]     Set required OS subsystem [& version]
+  --support-old-code                 Support interworking with old code
+  --thumb-entry=<symbol>             Set the entry point to be Thumb <symbol>
+
+
+Report bugs to bug-gnu-utils@gnu.org

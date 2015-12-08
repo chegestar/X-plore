@@ -1,0 +1,12 @@
+#{"X-plore"},(0x20009598),1,65,0
+(0x101F7960), 0, 0, 0, {"Series60ProductID"}
+
+;----------------------------
+
+"_build\Explorer\S60_Release\ProfiExplorer.aif"    - "!:\System\Apps\X-plore\X-plore.aif"
+"_build\Explorer\S60_Release\X-plore.app"    - "!:\System\Apps\X-plore\X-plore.app"
+"_build\Explorer\S60_Release\ProfiExplorer.rsc"    - "!:\System\Apps\X-plore\X-plore.rsc"
+
+"_build\Explorer\S60_Release\Data.dta"             - "!:\System\Apps\X-plore\Explorer\Data.dta"
+
+"..\res\Explorer\License.txt"                - "!:\System\Apps\X-plore\Explorer\License.txt"

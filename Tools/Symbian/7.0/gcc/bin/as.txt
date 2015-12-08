@@ -1,0 +1,60 @@
+Usage: as.exe [option...] [asmfile...]
+Options:
+  -a[sub-option...]	turn on listings
+    Sub-options [default hls]:
+    c   omit false conditionals
+    d   omit debugging directives
+    h   include high-level source
+    l   include assembly
+    m   include macro expansions
+    n   omit forms processing
+    s   include symbols
+    =file set listing file name (must be last sub-option)
+  -D		          produce assembler debugging messages
+  --defsym SYM=VAL        define symbol SYM to given value
+  -f		          skip whitespace and comment preprocessing
+  --gstabs	          generate stabs debugging information
+  --help		  show this message and exit
+  -I DIR		  add DIR to search list for .include directives
+  -J		          don't warn about signed overflow
+  -K		          warn when differences altered for long displacements
+  -L,--keep-locals        keep local symbols (e.g. starting with `L')
+  -M,--mri	          assemble in MRI compatibility mode
+  --MD FILE	          write dependency information in FILE (default none)
+  -nocpp		  ignored
+  -o OBJFILE	          name the object-file output OBJFILE (default a.out)
+  -R		          fold data section into text section
+  --statistics	          print various measured statistics from execution
+  --strip-local-absolute  strip local absolute symbols
+  --traditional-format	  Use same format as native assembler when possible
+  --version		  print assembler version number and exit
+  -W			  suppress warnings
+  --itbl INSTTBL	  extend instruction set to include instructions
+			  matching the specifications defined in file INSTTBL
+  -w			  ignored
+  -X			  ignored
+  -Z			  generate object file even after errors
+  --listing-lhs-width	  set the width in words of the output data column of
+			  the listing
+  --listing-lhs-width2	  set the width in words of the continuation lines
+			  of the output data column; ignored if smaller than
+			  the width of the first line
+  --listing-rhs-width	  set the max width in characters of the lines from
+			  the source file
+  --listing-cont-lines	  set the maximum number of continuation lines used
+			  for the output data column of the listing
+  -m[arm][<processor name>] select processor variant
+  -m[arm]v[2|2a|3|3m|4|4t]  select architecture variant
+  -mthumb                   only allow Thumb instructions
+  -mthumb-interwork         mark the assembled code as supporting interworking
+  -mall                     allow any instruction
+  -mfpa10, -mfpa11          select floating point architecture
+  -mfpe-old                 don't allow floating-point multiple instructions
+  -mno-fpu                  don't allow any floating-point instructions.
+  -mapcs-32, -mapcs-26      specify which ARM Procedure Calling Standard is in use
+  -mapcs-float              floating point args are passed in floating point regs
+  -mapcs-reentrant          position independent/reentrant code has been generated
+  -EB                       assemble code for a big endian cpu
+  -EL                       assemble code for a little endian cpu
+
+Report bugs to bug-gnu-utils@gnu.org
